@@ -1,9 +1,6 @@
 package com.rfsaca.algafood.api.exceptionHandler;
 
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
-
-import javax.print.DocFlavor.STRING;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.http.HttpHeaders;
