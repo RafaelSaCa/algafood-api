@@ -65,7 +65,7 @@ public class RestauranteController {
                     "produtos");
             return restauranteService.salvar(restauranteAtual);
         } catch (CozinhaNaoEncontradaException e) {
-            throw new NegocioException(e.getLocalizedMessage());
+            throw new NegocioException(e.getMessage());
         }
 
     }
