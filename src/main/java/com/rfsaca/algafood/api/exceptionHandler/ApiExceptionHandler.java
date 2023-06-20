@@ -54,13 +54,18 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 String detail = "Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.";
                 BindingResult bindingResult = ex.getBindingResult();
 
-                List<Problem.Field> problemFields = bindingResult.getFieldErrors().stream()
-                                .map(fieldError -> {
+                List<Problem.Object> problemObjects = bindingResult.getAllErrors().stream()
+                                .map(objectError -> {
                                         // lê o arquivo messages.properties
-                                        String message = messageSource.getMessage(fieldError,
+                                        String message = messageSource.getMessage(objectError,
                                                         LocaleContextHolder.getLocale());
-                                        return Problem.Field.builder()
-                                                        .name(fieldError.getField())
+                                        String name = objectError.getObjectName();
+
+                                        if (objectError instanceof FieldError) {
+                                                name = ((FieldError) objectError).getField();
+                                        }
+                                        return Problem.Object.builder()
+                                                        .name(name)
                                                         .userMessage(message)
                                                         .build();
                                 })
@@ -68,7 +73,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
                 Problem problem = createProblemBuilder(status, problemType, detail)
                                 .userMessage(detail)
-                                .fields(problemFields)
+                                .objects(problemObjects)
                                 .build();
 
                 return super.handleExceptionInternal(ex, problem, headers, status, request);
