@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.rfsaca.algafood.domain.exceptions.CozinhaNaoEncontradaException;
+import com.rfsaca.algafood.domain.exceptions.EntidadeEmUsoException;
 import com.rfsaca.algafood.domain.models.Cozinha;
 import com.rfsaca.algafood.domain.services.CozinhaService;
 
@@ -43,4 +45,21 @@ public class CadastroCozinhaIntegrationTest {
         assertNotNull(erroEsperado);
     }
 
+    @Test
+    public void deveFalharAoExcluirCozinhaEmUso() {
+        EntidadeEmUsoException erroEsperado = assertThrows(EntidadeEmUsoException.class, () -> {
+            cozinhaService.excluir(1L);
+        });
+        assertNotNull(erroEsperado);
+    }
+
+    @Test
+    public void deveFalharAoExcluirCozinhaInexistente() {
+
+        CozinhaNaoEncontradaException erroEsperado = assertThrows(CozinhaNaoEncontradaException.class, () -> {
+            cozinhaService.excluir(100L);
+        });
+        assertNotNull(erroEsperado);
+
+    }
 }
