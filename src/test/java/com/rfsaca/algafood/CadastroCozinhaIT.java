@@ -15,7 +15,7 @@ import com.rfsaca.algafood.domain.models.Cozinha;
 import com.rfsaca.algafood.domain.services.CozinhaService;
 
 @SpringBootTest
-public class CadastroCozinhaIntegrationTest {
+public class CadastroCozinhaIT {// TESTE DE INTEGRAÇÃO
 
     @Autowired
     private CozinhaService cozinhaService;
