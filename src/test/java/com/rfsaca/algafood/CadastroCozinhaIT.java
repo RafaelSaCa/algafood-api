@@ -38,7 +38,8 @@ public class CadastroCozinhaIT {
                 .when()
                 .get()
                 .then()
-                .body("", Matchers.hasSize(6));
+                .body("", Matchers.hasSize(6))
+                .body("nome", Matchers.hasItems("Indiana", "Chinesa"));
 
     }
 
