@@ -19,10 +19,10 @@
 	</properties>
 	<dependencies>
 
-		<dependency>
+		<!--dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
+		</dependency><!-->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -64,6 +64,7 @@
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-core</artifactId>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
@@ -75,7 +76,6 @@
 		</dependency>
 
 	</dependencies>
-
 
 	<build>
 		<plugins>
@@ -94,6 +94,7 @@
 			<plugin>
 				<artifactId>maven-failsafe-plugin</artifactId>
 			</plugin>
+			
 		</plugins>
 	</build>
 

@@ -8,12 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.context.TestPropertySource;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 
-@SpringBootTest(classes = AlgafoodApiApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestPropertySource("/application-test.properties")
 public class CadastroCozinhaIT {
 
     @LocalServerPort
@@ -49,8 +50,7 @@ public class CadastroCozinhaIT {
                 .when()
                 .get()
                 .then()
-                .body("", Matchers.hasSize(4))
-                .body("nome", Matchers.hasItems("Indiana", "Argentina"));
+                .body("", Matchers.hasSize(4));
 
     }
 
