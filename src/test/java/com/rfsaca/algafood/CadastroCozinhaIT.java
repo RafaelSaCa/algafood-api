@@ -15,6 +15,8 @@ import com.rfsaca.algafood.util.DatabaseCleaner;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import io.restassured.matcher.ResponseAwareMatcher;
+import io.restassured.response.Response;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("/application-test.properties")
@@ -71,6 +73,34 @@ public class CadastroCozinhaIT {
                 .post()
                 .then()
                 .statusCode(HttpStatus.CREATED.value());
+    }
+
+    @Test
+    public void deveRetornarRespostaEStatusCorretos_QuandoConsultarCozinhaExistente() {
+        RestAssured.given()
+                .pathParam("cozinhaId", 2)
+                .accept(ContentType.JSON)
+                .when()
+                .get("/{cozinhaId}")
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("nome", equalTo("Americana"));
+    }
+
+    @Test
+    public void deveRetornarStatus404_QuandoConsultarCozinhaInexistente() {
+        RestAssured.given()
+                .pathParam("cozinhaId", 100)
+                .accept(ContentType.JSON)
+                .when()
+                .get("/{cozinhaId}")
+                .then()
+                .statusCode(HttpStatus.NOT_FOUND.value());
+
+    }
+
+    private ResponseAwareMatcher<Response> equalTo(String string) {
+        return null;
     }
 
     private void prepararDados() {
