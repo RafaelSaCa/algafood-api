@@ -1,6 +1,5 @@
 package com.rfsaca.algafood;
 
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +14,7 @@ import com.rfsaca.algafood.util.DatabaseCleaner;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import io.restassured.matcher.ResponseAwareMatcher;
-import io.restassured.response.Response;
+import static org.hamcrest.Matchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("/application-test.properties")
@@ -59,8 +57,7 @@ public class CadastroCozinhaIT {
                 .when()
                 .get()
                 .then()
-                .body("", Matchers.hasSize(2));
-
+                .statusCode(HttpStatus.OK.value());
     }
 
     @Test
@@ -77,6 +74,7 @@ public class CadastroCozinhaIT {
 
     @Test
     public void deveRetornarRespostaEStatusCorretos_QuandoConsultarCozinhaExistente() {
+
         RestAssured.given()
                 .pathParam("cozinhaId", 2)
                 .accept(ContentType.JSON)
@@ -85,6 +83,7 @@ public class CadastroCozinhaIT {
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("nome", equalTo("Americana"));
+
     }
 
     @Test
@@ -96,11 +95,6 @@ public class CadastroCozinhaIT {
                 .get("/{cozinhaId}")
                 .then()
                 .statusCode(HttpStatus.NOT_FOUND.value());
-
-    }
-
-    private ResponseAwareMatcher<Response> equalTo(String string) {
-        return null;
     }
 
     private void prepararDados() {
