@@ -28,7 +28,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.rfsaca.algafood.Groups;
+import com.rfsaca.algafood.core.validation.Groups;
 import com.rfsaca.algafood.core.validation.Multiplo;
 import com.rfsaca.algafood.core.validation.ValorZeroIncluiDescricao;
 
