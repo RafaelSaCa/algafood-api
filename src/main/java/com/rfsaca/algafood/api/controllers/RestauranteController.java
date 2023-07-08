@@ -3,6 +3,7 @@ package com.rfsaca.algafood.api.controllers;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rfsaca.algafood.api.model.CozinhaDto;
 import com.rfsaca.algafood.api.model.RestauranteDto;
 import com.rfsaca.algafood.core.validation.ValidacaoException;
 import com.rfsaca.algafood.domain.exceptions.CozinhaNaoEncontradaException;
@@ -49,15 +51,15 @@ public class RestauranteController {
     private SmartValidator validator;
 
     @GetMapping
-    public List<Restaurante> listar() {
-        return restauranteRepository.findAll();
+    public List<RestauranteDto> listar() {
+        return toCollectionDto(restauranteRepository.findAll());
     }
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public Restaurante adicionar(@RequestBody @Valid Restaurante restaurante) {
+    public RestauranteDto adicionar(@RequestBody @Valid Restaurante restaurante) {
         try {
-            return restauranteService.salvar(restaurante);
+            return toDto(restauranteService.salvar(restaurante));
         } catch (CozinhaNaoEncontradaException e) {
             throw new NegocioException(e.getLocalizedMessage());
         }
@@ -66,20 +68,20 @@ public class RestauranteController {
 
     @GetMapping("/{restauranteId}")
     public RestauranteDto buscar(@PathVariable Long restauranteId) {
-        // return restauranteService.buscarOuFalhar(restauranteId);
-        RestauranteDto restauranteDto = null;
-        return restauranteDto;
+        Restaurante restaurante = restauranteService.buscarOuFalhar(restauranteId);
+
+        return toDto(restaurante);
 
     }
 
     @PutMapping("/{restauranteId}")
-    public Restaurante atualizar(@PathVariable Long restauranteId, @RequestBody @Valid Restaurante restaurante) {
+    public RestauranteDto atualizar(@PathVariable Long restauranteId, @RequestBody @Valid Restaurante restaurante) {
         try {
             Restaurante restauranteAtual = restauranteService.buscarOuFalhar(restauranteId);
 
             BeanUtils.copyProperties(restaurante, restauranteAtual, "id", "formasPagamento", "endereco", "dataCadastro",
                     "produtos");
-            return restauranteService.salvar(restauranteAtual);
+            return toDto(restauranteService.salvar(restauranteAtual));
         } catch (CozinhaNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }
@@ -93,7 +95,7 @@ public class RestauranteController {
     }
 
     @PatchMapping("/{restauranteId}")
-    public Restaurante atualizarParcial(@PathVariable Long restauranteId, @RequestBody Map<String, Object> campos,
+    public RestauranteDto atualizarParcial(@PathVariable Long restauranteId, @RequestBody Map<String, Object> campos,
             HttpServletRequest request) {
         Restaurante restauranteAtual = restauranteService.buscarOuFalhar(restauranteId);
 
@@ -138,4 +140,24 @@ public class RestauranteController {
 
     }
 
+    private RestauranteDto toDto(Restaurante restaurante) {
+        RestauranteDto restauranteDto = new RestauranteDto();
+        restauranteDto.setId(restaurante.getId());
+        restauranteDto.setNome(restaurante.getNome());
+        restauranteDto.setTaxaFrete(restaurante.getTaxaFrete());
+
+        CozinhaDto cozinhaDto = new CozinhaDto();
+        cozinhaDto.setId(restaurante.getCozinha().getId());
+        cozinhaDto.setNome(restaurante.getCozinha().getNome());
+
+        restauranteDto.setCozinha(cozinhaDto);
+        return restauranteDto;
+    }
+
+    private List<RestauranteDto> toCollectionDto(List<Restaurante> restaurantes) {
+        return restaurantes.stream()
+                .map(restaurante -> toDto(restaurante))
+                .collect(Collectors.toList());
+
+    }
 }
