@@ -1,7 +1,6 @@
 package com.rfsaca.algafood.domain.models;
 
 import java.util.ArrayList;
-
 import java.util.List;
 
 import javax.persistence.Column;
@@ -13,7 +12,6 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rfsaca.algafood.core.validation.Groups;
 
 import lombok.Data;
