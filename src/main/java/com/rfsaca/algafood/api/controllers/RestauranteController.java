@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rfsaca.algafood.api.model.RestauranteDto;
 import com.rfsaca.algafood.core.validation.ValidacaoException;
 import com.rfsaca.algafood.domain.exceptions.CozinhaNaoEncontradaException;
 import com.rfsaca.algafood.domain.exceptions.NegocioException;
@@ -64,8 +65,11 @@ public class RestauranteController {
     }
 
     @GetMapping("/{restauranteId}")
-    public Restaurante buscar(@PathVariable Long restauranteId) {
-        return restauranteService.buscarOuFalhar(restauranteId);
+    public RestauranteDto buscar(@PathVariable Long restauranteId) {
+        // return restauranteService.buscarOuFalhar(restauranteId);
+        RestauranteDto restauranteDto = null;
+        return restauranteDto;
+
     }
 
     @PutMapping("/{restauranteId}")

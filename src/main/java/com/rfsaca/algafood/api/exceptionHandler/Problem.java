@@ -1,6 +1,5 @@
 package com.rfsaca.algafood.api.exceptionHandler;
 
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.List;
 
