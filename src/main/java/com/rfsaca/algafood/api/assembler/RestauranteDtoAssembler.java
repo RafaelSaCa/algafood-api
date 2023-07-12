@@ -13,15 +13,15 @@ import com.rfsaca.algafood.domain.models.Restaurante;
 public class RestauranteDtoAssembler {
 
     public RestauranteDto toDto(Restaurante restaurante) {
-        RestauranteDto restauranteDto = new RestauranteDto();
-        restauranteDto.setId(restaurante.getId());
-        restauranteDto.setNome(restaurante.getNome());
-        restauranteDto.setTaxaFrete(restaurante.getTaxaFrete());
 
         CozinhaDto cozinhaDto = new CozinhaDto();
         cozinhaDto.setId(restaurante.getCozinha().getId());
         cozinhaDto.setNome(restaurante.getCozinha().getNome());
 
+        RestauranteDto restauranteDto = new RestauranteDto();
+        restauranteDto.setId(restaurante.getId());
+        restauranteDto.setNome(restaurante.getNome());
+        restauranteDto.setTaxaFrete(restaurante.getTaxaFrete());
         restauranteDto.setCozinha(cozinhaDto);
         return restauranteDto;
     }
