@@ -16,12 +16,10 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.PositiveOrZero;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.rfsaca.algafood.core.validation.Multiplo;
 import com.rfsaca.algafood.core.validation.ValorZeroIncluiDescricao;
 
 import lombok.Data;
