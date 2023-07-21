@@ -1,11 +1,11 @@
 package com.rfsaca.algafood.domain.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.rfsaca.algafood.domain.exceptions.RestauranteNaoEncontradoException;
+import com.rfsaca.algafood.domain.models.Cozinha;
 import com.rfsaca.algafood.domain.models.Restaurante;
 import com.rfsaca.algafood.domain.repositories.RestauranteRepository;
 
@@ -14,19 +14,18 @@ public class RestauranteService {
 
     @Autowired
     private RestauranteRepository restauranteRepository;
+    @Autowired
+    private CozinhaService cozinhaService;
 
     @Transactional
     public Restaurante salvar(Restaurante restaurante) {
-        return restauranteRepository.save(restaurante);
-    }
+        Long cozinhaId = restaurante.getCozinha().getId();
 
-    @Transactional
-    public void excluir(Long restauranteId) {
-        try {
-            restauranteRepository.deleteById(restauranteId);
-        } catch (EmptyResultDataAccessException e) {
-            throw new RestauranteNaoEncontradoException(restauranteId);
-        }
+        Cozinha cozinha = cozinhaService.buscarOuFalhar(cozinhaId);
+
+        restaurante.setCozinha(cozinha);
+
+        return restauranteRepository.save(restaurante);
     }
 
     public Restaurante buscarOuFalhar(Long restauranteId) {
