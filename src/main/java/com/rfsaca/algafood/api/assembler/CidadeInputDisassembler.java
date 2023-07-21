@@ -9,7 +9,7 @@ import com.rfsaca.algafood.domain.models.Cidade;
 import com.rfsaca.algafood.domain.models.Estado;
 
 @Component
-public class CidadeDisassembler {
+public class CidadeInputDisassembler {
 
     @Autowired
     private ModelMapper modelMapper;
