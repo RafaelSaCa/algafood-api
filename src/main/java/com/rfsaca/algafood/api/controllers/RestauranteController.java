@@ -20,6 +20,7 @@ import com.rfsaca.algafood.api.assembler.RestauranteDtoAssembler;
 import com.rfsaca.algafood.api.assembler.RestauranteInputDisassembler;
 import com.rfsaca.algafood.api.model.RestauranteDto;
 import com.rfsaca.algafood.api.model.input.RestauranteInput;
+import com.rfsaca.algafood.domain.exceptions.CidadeNaoEncontradaException;
 import com.rfsaca.algafood.domain.exceptions.CozinhaNaoEncontradaException;
 import com.rfsaca.algafood.domain.exceptions.NegocioException;
 import com.rfsaca.algafood.domain.models.Restaurante;
@@ -54,7 +55,7 @@ public class RestauranteController {
             Restaurante restaurante = restauranteInputDisassembler.toDomainObject(restauranteInput);
 
             return restauranteDtoAssembler.toDto(restauranteService.salvar(restaurante));
-        } catch (CozinhaNaoEncontradaException e) {
+        } catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
             throw new NegocioException(e.getLocalizedMessage());
         }
 
@@ -77,7 +78,7 @@ public class RestauranteController {
             restauranteInputDisassembler.copyToDomainObject(restauranteInput, restauranteAtual);
 
             return restauranteDtoAssembler.toDto(restauranteService.salvar(restauranteAtual));
-        } catch (CozinhaNaoEncontradaException e) {
+        } catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }
 
