@@ -25,7 +25,7 @@ import com.rfsaca.algafood.domain.repositories.FormaPagamentoRepository;
 import com.rfsaca.algafood.domain.services.FormaPagamentoService;
 
 @RestController
-@RequestMapping("/forma-pagamento")
+@RequestMapping("/{forma-pagamento}")
 public class FormaPagamentoController {
 
     @Autowired
@@ -73,7 +73,7 @@ public class FormaPagamentoController {
         return formaPagamentoDtoAssembler.toDto(formaPagamentoAtual);
     }
 
-    @DeleteMapping("/`{formaPagamentoId }")
+    @DeleteMapping("/{formaPagamentoId}")
     public void remover(@PathVariable Long formaPagamentoId) {
         formaPagamentoService.excluir(formaPagamentoId);
     }
