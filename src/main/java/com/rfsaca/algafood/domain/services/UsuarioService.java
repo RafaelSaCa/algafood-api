@@ -1,5 +1,8 @@
 package com.rfsaca.algafood.domain.services;
 
+import java.util.Optional;
+
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +19,19 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private EntityManager entityManager;
+
     @Transactional
     public Usuario salvar(Usuario usuario) {
+        entityManager.detach(usuario);
+
+        Optional<Usuario> usuarioExistente = usuarioRepository.findByEmail(usuario.getEmail());
+
+        if (usuarioExistente.isPresent() && !usuarioExistente.get().equals(usuario)) {
+            throw new NegocioException(
+                    String.format("Já existe um usuário cadastrado com o e-mail %s", usuario.getEmail()));
+        }
         return usuarioRepository.save(usuario);
     }
 
