@@ -25,6 +25,7 @@ public class FormaPagamentoService {
         return formaPagamentoRepository.save(formaPagamento);
     }
 
+    @Transactional
     public void excluir(Long formaPagamentoId) {
         try {
             formaPagamentoRepository.deleteById(formaPagamentoId);
@@ -32,6 +33,7 @@ public class FormaPagamentoService {
 
         } catch (EmptyResultDataAccessException e) {
             throw new FormaPagamentoNaoEncontradaException(formaPagamentoId);
+            
         } catch (DataIntegrityViolationException e) {
             throw new EntidadeEmUsoException(String.format(MSG_FORMA_PAGAMENTO_EM_USO, formaPagamentoId));
         }

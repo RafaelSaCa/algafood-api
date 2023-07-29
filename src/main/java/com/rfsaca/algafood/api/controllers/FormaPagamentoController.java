@@ -25,7 +25,7 @@ import com.rfsaca.algafood.domain.repositories.FormaPagamentoRepository;
 import com.rfsaca.algafood.domain.services.FormaPagamentoService;
 
 @RestController
-@RequestMapping("/{forma-pagamento}")
+@RequestMapping("/{formas-pagamento}")
 public class FormaPagamentoController {
 
     @Autowired
@@ -74,6 +74,7 @@ public class FormaPagamentoController {
     }
 
     @DeleteMapping("/{formaPagamentoId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remover(@PathVariable Long formaPagamentoId) {
         formaPagamentoService.excluir(formaPagamentoId);
     }

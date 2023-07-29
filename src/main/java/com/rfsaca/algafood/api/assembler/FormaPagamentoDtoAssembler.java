@@ -1,5 +1,6 @@
 package com.rfsaca.algafood.api.assembler;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,7 +21,8 @@ public class FormaPagamentoDtoAssembler {
         return modelMapper.map(formaPagamento, FormaPagamentoDto.class);
     }
 
-    public List<FormaPagamentoDto> toCollectionDto(List<FormaPagamento> formasPagamentos) {
+    // alterado de List para Collection para receber o Set de formas de pagamento
+    public List<FormaPagamentoDto> toCollectionDto(Collection<FormaPagamento> formasPagamentos) {
         return formasPagamentos.stream()
                 .map(formaPagamento -> toDto(formaPagamento)).collect(Collectors.toList());
 
