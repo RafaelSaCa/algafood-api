@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.rfsaca.algafood.domain.exceptions.EntidadeEmUsoException;
 import com.rfsaca.algafood.domain.exceptions.GrupoNaoEncontradoException;
 import com.rfsaca.algafood.domain.models.Grupo;
+import com.rfsaca.algafood.domain.models.Permissao;
 import com.rfsaca.algafood.domain.repositories.GrupoRepository;
 
 @Service
@@ -19,6 +20,9 @@ public class GrupoService {
 
     @Autowired
     private GrupoRepository grupoRepository;
+
+    @Autowired
+    private PermissaoService permissaoService;
 
     @Transactional
     public Grupo salvar(Grupo grupo) {
@@ -44,4 +48,21 @@ public class GrupoService {
                 .orElseThrow(() -> new GrupoNaoEncontradoException(grupoId));
 
     }
+
+    @Transactional
+    public void associarPermissao(Long grupoId, Long permissaoId) {
+        Grupo grupo = buscarOuFalhar(grupoId);
+        Permissao permissao = permissaoService.buscarOuFalhar(permissaoId);
+
+        grupo.adicionarPermissao(permissao);
+    }
+
+    @Transactional
+    public void desassociarPermissao(Long grupoId, Long permissaoId) {
+        Grupo grupo = buscarOuFalhar(grupoId);
+        Permissao permissao = permissaoService.buscarOuFalhar(permissaoId);
+
+        grupo.removerPermissao(permissao);
+    }
+
 }
