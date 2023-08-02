@@ -1,5 +1,6 @@
 package com.rfsaca.algafood.api.assembler;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,7 +22,7 @@ public class GrupoDtoAssembler {
 
     }
 
-    public List<GrupoDto> toCollectionDto(List<Grupo> grupos) {
+    public List<GrupoDto> toCollectionDto(Collection<Grupo> grupos) {
         return grupos.stream()
                 .map(grupo -> toDto(grupo))
                 .collect(Collectors.toList());
