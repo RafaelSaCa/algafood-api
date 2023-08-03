@@ -1,5 +1,7 @@
 package com.rfsaca.algafood.domain.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,6 +56,16 @@ public class RestauranteService {
         Restaurante restauranteAtual = buscarOuFalhar(restauranteId);
 
         restauranteAtual.inativar();
+    }
+
+    @Transactional
+    public void ativar(List<Long> restauranteIds) {// ativar varios restaurantes de uma vez
+        restauranteIds.forEach(this::ativar);
+    }
+
+    @Transactional
+    public void inativar(List<Long> restauranteIds) {// ativar varios restaurantes de uma vez
+        restauranteIds.forEach(this::inativar);
     }
 
     @Transactional

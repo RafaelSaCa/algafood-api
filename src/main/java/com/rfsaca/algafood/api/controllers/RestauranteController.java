@@ -23,6 +23,7 @@ import com.rfsaca.algafood.api.model.input.RestauranteInput;
 import com.rfsaca.algafood.domain.exceptions.CidadeNaoEncontradaException;
 import com.rfsaca.algafood.domain.exceptions.CozinhaNaoEncontradaException;
 import com.rfsaca.algafood.domain.exceptions.NegocioException;
+import com.rfsaca.algafood.domain.exceptions.RestauranteNaoEncontradoException;
 import com.rfsaca.algafood.domain.models.Restaurante;
 import com.rfsaca.algafood.domain.repositories.RestauranteRepository;
 import com.rfsaca.algafood.domain.services.RestauranteService;
@@ -94,6 +95,28 @@ public class RestauranteController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void inativar(@PathVariable Long restauranteId) {
         restauranteService.inativar(restauranteId);
+    }
+
+    @PutMapping("/ativacoes")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void ativarMultiplos(@RequestBody List<Long> restauranteIds) {
+        try {
+            restauranteService.ativar(restauranteIds);
+        } catch (RestauranteNaoEncontradoException e) {
+            throw new NegocioException(e.getLocalizedMessage(), e);
+        }
+
+    }
+
+    @DeleteMapping("/ativacoes")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void inativarMultiplos(@RequestBody List<Long> restauranteIds) {
+        try {
+            restauranteService.inativar(restauranteIds);
+        } catch (RestauranteNaoEncontradoException e) {
+            throw new NegocioException(e.getLocalizedMessage(), e);
+        }
+
     }
 
     @PutMapping("/{restauranteId}/abertura")
