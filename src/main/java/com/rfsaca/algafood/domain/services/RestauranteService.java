@@ -9,6 +9,7 @@ import com.rfsaca.algafood.domain.models.Cidade;
 import com.rfsaca.algafood.domain.models.Cozinha;
 import com.rfsaca.algafood.domain.models.FormaPagamento;
 import com.rfsaca.algafood.domain.models.Restaurante;
+import com.rfsaca.algafood.domain.models.Usuario;
 import com.rfsaca.algafood.domain.repositories.RestauranteRepository;
 
 @Service
@@ -22,6 +23,8 @@ public class RestauranteService {
     private CidadeService cidadeService;
     @Autowired
     private FormaPagamentoService formaPagamentoService;
+    @Autowired
+    private UsuarioService usuarioService;
 
     @Transactional
     public Restaurante salvar(Restaurante restaurante) {
@@ -84,5 +87,21 @@ public class RestauranteService {
     public void fechar(Long restauranteId) {
         Restaurante restauranteAtual = buscarOuFalhar(restauranteId);
         restauranteAtual.fechar();
+    }
+
+    @Transactional
+    public void associarResponsavel(Long restauranteId, Long usuarioId) {
+        Restaurante restaurante = buscarOuFalhar(restauranteId);
+        Usuario usuario = usuarioService.buscarOuFalhar(usuarioId);
+
+        restaurante.adicionarResponsavel(usuario);
+    }
+
+    @Transactional
+    public void desassociarResponsavel(Long restauranteId, Long usuarioId) {
+        Restaurante restaurante = buscarOuFalhar(restauranteId);
+        Usuario usuario = usuarioService.buscarOuFalhar(usuarioId);
+
+        restaurante.removerResponsavel(usuario);
     }
 }
