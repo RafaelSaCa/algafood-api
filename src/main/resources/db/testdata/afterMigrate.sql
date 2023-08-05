@@ -10,8 +10,11 @@ delete from permissao;
 delete from produto;
 delete from restaurante;
 delete from restaurante_forma_pagamento;
+delete from restaurante_usuario_responsavel;
 delete from usuario;
 delete from usuario_grupo;
+delete from pedido;
+delete from item_pedido;
 
 set foreign_key_checks = 1;
 
@@ -88,8 +91,7 @@ insert into usuario (id, nome, email, senha, data_cadastro) values
 
 insert into restaurante_usuario_responsavel (restaurante_id, usuario_id) values (1, 5), (3, 5);
 
-delete from pedido;
-delete from item_pedido;
+
 insert into pedido (id, restaurante_id, usuario_cliente_id, forma_pagamento_id, endereco_cidade_id, endereco_cep, 
                     endereco_logradouro, endereco_numero, endereco_complemento, endereco_bairro,
 	                status, data_criacao, subtotal, taxa_frete, valor_total)
@@ -111,3 +113,4 @@ values (2, 4, 1, 2, 1, '38400-111', 'Rua Acre', '300', 'Casa 2', 'Centro',
 
 insert into item_pedido (id, pedido_id, produto_id, quantidade, preco_unitario, preco_total, observacao)
 values (3, 2, 6, 1, 79, 79, 'Ao ponto');
+

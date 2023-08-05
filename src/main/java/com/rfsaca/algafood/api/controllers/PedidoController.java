@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rfsaca.algafood.api.assembler.PedidoDtoAssembler;
+import com.rfsaca.algafood.api.assembler.PedidoResumoDtoAssembler;
 import com.rfsaca.algafood.api.model.PedidoDto;
+import com.rfsaca.algafood.api.model.PedidoResumoDto;
 import com.rfsaca.algafood.domain.models.Pedido;
 import com.rfsaca.algafood.domain.repositories.PedidoRepository;
 import com.rfsaca.algafood.domain.services.EmissaoPedidoService;
@@ -26,11 +28,14 @@ public class PedidoController {
     @Autowired
     private PedidoDtoAssembler pedidoDtoAssembler;
 
+    @Autowired
+    private PedidoResumoDtoAssembler pedidoResumoDtoAssembler;
+
     @GetMapping
-    public List<PedidoDto> listar() {
+    public List<PedidoResumoDto> listar() {
         List<Pedido> pedidos = pedidoRepository.findAll();
 
-        return pedidoDtoAssembler.toCollectionDto(pedidos);
+        return pedidoResumoDtoAssembler.toCollectionDto(pedidos);
     }
 
     @GetMapping("/{pedidoId}")
