@@ -4,7 +4,7 @@ public class ProdutoNaoEncontradoException extends EntidadeNaoEncontradaExceptio
 
     public ProdutoNaoEncontradoException(String mensagem) {
         super(mensagem);
-        // TODO Auto-generated constructor stub
+
     }
 
     public ProdutoNaoEncontradoException(Long restauranteId, Long produtoId) {
