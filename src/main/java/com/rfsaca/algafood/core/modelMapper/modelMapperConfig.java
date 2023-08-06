@@ -5,7 +5,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.rfsaca.algafood.api.model.EnderecoDto;
+import com.rfsaca.algafood.api.model.input.ItemPedidoInput;
 import com.rfsaca.algafood.domain.models.Endereco;
+import com.rfsaca.algafood.domain.models.ItemPedido;
 
 @Configuration
 public class modelMapperConfig {
@@ -16,6 +18,11 @@ public class modelMapperConfig {
 
         // modelMapper.createTypeMap(Restaurante.class, RestauranteDto.class)
         // .addMapping(Restaurante::getTaxaFrete, RestauranteDto::setPrecoFrete);
+
+        modelMapper.createTypeMap(ItemPedidoInput.class, ItemPedido.class)
+                .addMappings(mapper -> mapper.skip(ItemPedido::setId));// mapper para NAO setar o id do item no pedido
+                                                                       // ao fazer a conversao de dto para modelo de
+                                                                       // dominio.
 
         var enderecoDtoTypeMap = modelMapper.createTypeMap(Endereco.class, EnderecoDto.class);
 
