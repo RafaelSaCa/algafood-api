@@ -76,20 +76,19 @@ insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('San
 
 insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Espetinho de Cupim', 'Acompanha farinha, mandioca e vinagrete', 8, 1, 6);
 
-insert into grupo (id, nome) values (1, 'Gerente'),(2, 'Vendedor'),(3, 'Secretária'), (4, 'Cadastrador');
+
+insert into grupo (id, nome) values (1, 'Gerente'), (2, 'Vendedor'), (3, 'Secretária'), (4, 'Cadastrador');
 
 insert into grupo_permissao (grupo_id, permissao_id) values (1, 1), (1, 2), (2, 1), (2, 2), (3, 1); 
+
 insert into usuario (id, nome, email, senha, data_cadastro) values
 (1, 'João da Silva', 'joao.ger@algafood.com', '123', utc_timestamp),
 (2, 'Maria Joaquina', 'maria.vnd@algafood.com', '123', utc_timestamp),
 (3, 'José Souza', 'jose.aux@algafood.com', '123', utc_timestamp),
-(4, 'Sebastião Martins', 'sebastiao.cad@algafood.com', '123', utc_timestamp);  
-
-insert into usuario_grupo (usuario_id, grupo_id) value (1,1),(1,2),(2,2);
-
-delete from restaurante_usuario_responsavel;
-insert into usuario (id, nome, email, senha, data_cadastro) values
+(4, 'Sebastião Martins', 'sebastiao.cad@algafood.com', '123', utc_timestamp),
 (5, 'Manoel Lima', 'manoel.loja@gmail.com', '123', utc_timestamp);
+
+insert into usuario_grupo (usuario_id, grupo_id) values (1, 1), (1, 2), (2, 2);
 
 insert into restaurante_usuario_responsavel (restaurante_id, usuario_id) values (1, 5), (3, 5);
 
@@ -97,7 +96,7 @@ insert into restaurante_usuario_responsavel (restaurante_id, usuario_id) values 
 insert into pedido (id, codigo, restaurante_id, usuario_cliente_id, forma_pagamento_id, endereco_cidade_id, endereco_cep, 
                     endereco_logradouro, endereco_numero, endereco_complemento, endereco_bairro,
 	                status, data_criacao, subtotal, taxa_frete, valor_total)
-values (1, '5a78ec6c-3612-11ee-be56-0242ac120002',1, 1, 1, 1, '38400-000', 'Rua Floriano Peixoto', '500', 'Apto 801', 'Brasil',
+values (1, '470cac9d-971e-4bd1-9f61-c3989ba70936', 1, 1, 1, 1, '38400-000', 'Rua Floriano Peixoto', '500', 'Apto 801', 'Brasil',
         'CRIADO', utc_timestamp, 298.90, 10, 308.90);
 
 insert into item_pedido (id, pedido_id, produto_id, quantidade, preco_unitario, preco_total, observacao)
@@ -110,9 +109,38 @@ values (2, 1, 2, 2, 110, 220, 'Menos picante, por favor');
 insert into pedido (id, codigo, restaurante_id, usuario_cliente_id, forma_pagamento_id, endereco_cidade_id, endereco_cep, 
                     endereco_logradouro, endereco_numero, endereco_complemento, endereco_bairro,
 	                status, data_criacao, subtotal, taxa_frete, valor_total)
-values (2,'7825d7ac-3612-11ee-be56-0242ac120002', 4, 1, 2, 1, '38400-111', 'Rua Acre', '300', 'Casa 2', 'Centro',
+values (2, '4afa3e1a-e6bc-4f0f-b686-0b98a40ad89f', 4, 1, 2, 1, '38400-111', 'Rua Acre', '300', 'Casa 2', 'Centro',
         'CRIADO', utc_timestamp, 79, 0, 79);
 
 insert into item_pedido (id, pedido_id, produto_id, quantidade, preco_unitario, preco_total, observacao)
 values (3, 2, 6, 1, 79, 79, 'Ao ponto');
 
+
+insert into pedido (id, codigo, restaurante_id, usuario_cliente_id, forma_pagamento_id, endereco_cidade_id, endereco_cep, 
+                    endereco_logradouro, endereco_numero, endereco_complemento, endereco_bairro,
+	                status, data_criacao, data_confirmacao, data_entrega, subtotal, taxa_frete, valor_total)
+values (3, 'ed48826c-9531-4812-af80-f2136ee8617a', 1, 1, 1, 1, '38400-222', 'Rua Natal', '200', null, 'Brasil',
+        'ENTREGUE', '2019-10-30 21:10:00', '2019-10-30 21:10:45', '2019-10-30 21:55:44', 110, 10, 120);
+
+insert into item_pedido (id, pedido_id, produto_id, quantidade, preco_unitario, preco_total, observacao)
+values (4, 3, 2, 1, 110, 110, null);
+
+
+insert into pedido (id, codigo, restaurante_id, usuario_cliente_id, forma_pagamento_id, endereco_cidade_id, endereco_cep, 
+                    endereco_logradouro, endereco_numero, endereco_complemento, endereco_bairro,
+	                status, data_criacao, data_confirmacao, data_entrega, subtotal, taxa_frete, valor_total)
+values (4, '838e9d42-a40a-476f-8873-da9f45868718', 1, 2, 1, 1, '38400-800', 'Rua Fortaleza', '900', 'Apto 504', 'Centro',
+        'ENTREGUE', '2019-11-02 20:34:04', '2019-11-02 20:35:10', '2019-11-02 21:10:32', 174.4, 5, 179.4);
+
+insert into item_pedido (id, pedido_id, produto_id, quantidade, preco_unitario, preco_total, observacao)
+values (5, 4, 3, 2, 87.2, 174.4, null);
+
+
+insert into pedido (id, codigo, restaurante_id, usuario_cliente_id, forma_pagamento_id, endereco_cidade_id, endereco_cep, 
+                    endereco_logradouro, endereco_numero, endereco_complemento, endereco_bairro,
+	                status, data_criacao, data_confirmacao, data_entrega, subtotal, taxa_frete, valor_total)
+values (5, 'b407102b-9281-494a-a5d6-c19e738c6535', 1, 3, 2, 1, '38400-200', 'Rua 10', '930', 'Casa 20', 'Martins',
+        'ENTREGUE', '2019-11-02 21:00:30', '2019-11-02 21:01:21', '2019-11-02 21:20:10', 87.2, 10, 97.2);
+
+insert into item_pedido (id, pedido_id, produto_id, quantidade, preco_unitario, preco_total, observacao)
+values (6, 5, 3, 1, 87.2, 87.2, null);

@@ -3,12 +3,9 @@ package com.rfsaca.algafood.api.model;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
-
 import lombok.Getter;
 import lombok.Setter;
 
-@JsonFilter("pedidoFilter")
 @Getter
 @Setter
 public class PedidoResumoDto {
