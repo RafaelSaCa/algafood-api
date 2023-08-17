@@ -28,10 +28,10 @@ import com.rfsaca.algafood.api.model.input.PedidoInput;
 import com.rfsaca.algafood.core.data.PageableTranslator;
 import com.rfsaca.algafood.domain.exceptions.EntidadeNaoEncontradaException;
 import com.rfsaca.algafood.domain.exceptions.NegocioException;
+import com.rfsaca.algafood.domain.filter.PedidoFilter;
 import com.rfsaca.algafood.domain.models.Pedido;
 import com.rfsaca.algafood.domain.models.Usuario;
 import com.rfsaca.algafood.domain.repositories.PedidoRepository;
-import com.rfsaca.algafood.domain.repositories.filter.PedidoFilter;
 import com.rfsaca.algafood.domain.services.EmissaoPedidoService;
 import com.rfsaca.algafood.infrastructure.repository.PedidoSpecs;
 
