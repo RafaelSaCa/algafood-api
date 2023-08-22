@@ -1,4 +1,4 @@
-package com.rfsaca.algafood.infrastructure.service;
+package com.rfsaca.algafood.infrastructure.service.query;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,6 +18,7 @@ import com.rfsaca.algafood.domain.services.VendaQueryService;
 
 @Repository
 public class VendaQueryServiceImpl implements VendaQueryService {
+
         @PersistenceContext
         private EntityManager manager;
 
@@ -58,10 +59,9 @@ public class VendaQueryServiceImpl implements VendaQueryService {
                                 StatusPedido.CONFIRMADO, StatusPedido.ENTREGUE));
 
                 query.select(selection);
-                query.groupBy(functionDateDataCriacao);
                 query.where(predicates.toArray(new Predicate[0]));
+                query.groupBy(functionDateDataCriacao);
 
                 return manager.createQuery(query).getResultList();
         }
-
 }
