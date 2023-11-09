@@ -51,7 +51,7 @@ public class ProdutoController {
         if (incluirInativos) {
             todosProdutos = produtoRepository.findTodosByRestaurante(restaurante);
         } else {
-            todosProdutos = produtoRepository.findAtivoByRestaurante(restaurante);
+            todosProdutos = produtoRepository.findAtivosByRestaurante(restaurante);
         }
 
         return produtoDtoAssembler.toCollectionDto(todosProdutos);
