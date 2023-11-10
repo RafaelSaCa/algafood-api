@@ -1,7 +1,6 @@
 package com.rfsaca.algafood.domain.listener;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionalEventListener;
 
@@ -11,7 +10,7 @@ import com.rfsaca.algafood.domain.services.EnvioEmailService;
 import com.rfsaca.algafood.domain.services.EnvioEmailService.Mensagem;
 
 @Component
-public class NotificacaoPedidoConfirmado {
+public class NotificacaoPedidoConfirmadoListener {
 
     @Autowired
     private EnvioEmailService envioEmailService;
