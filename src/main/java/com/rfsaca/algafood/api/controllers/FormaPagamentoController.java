@@ -64,12 +64,25 @@ public class FormaPagamentoController {
 
     }
 
+    // @GetMapping("/{formaPagamentoId}")
+    // public FormaPagamentoDto buscar(@PathVariable Long formaPagamentoId) {
+    // FormaPagamento formaPagamento =
+    // formaPagamentoService.buscarOuFalhar(formaPagamentoId);
+
+    // return formaPagamentoDtoAssembler.toDto(formaPagamento);
+
+    // }
+
+    // Cache-Control na Resposta
     @GetMapping("/{formaPagamentoId}")
-    public FormaPagamentoDto buscar(@PathVariable Long formaPagamentoId) {
+    public ResponseEntity<FormaPagamentoDto> buscar(@PathVariable Long formaPagamentoId) {
         FormaPagamento formaPagamento = formaPagamentoService.buscarOuFalhar(formaPagamentoId);
 
-        return formaPagamentoDtoAssembler.toDto(formaPagamento);
+        FormaPagamentoDto formaPagamentoDto = formaPagamentoDtoAssembler.toDto(formaPagamento);
 
+        return ResponseEntity.ok()
+                .cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
+                .body(formaPagamentoDto);
     }
 
     @PostMapping
