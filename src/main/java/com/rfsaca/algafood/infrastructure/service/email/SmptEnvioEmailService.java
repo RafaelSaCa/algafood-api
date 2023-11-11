@@ -1,7 +1,5 @@
 package com.rfsaca.algafood.infrastructure.service.email;
 
-import java.io.IOException;
-
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +11,8 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import com.rfsaca.algafood.core.email.EmailProperties;
 import com.rfsaca.algafood.domain.services.EnvioEmailService;
 
-import freemarker.core.ParseException;
 import freemarker.template.Configuration;
-import freemarker.template.MalformedTemplateNameException;
 import freemarker.template.Template;
-import freemarker.template.TemplateNotFoundException;
 
 @Service
 public class SmptEnvioEmailService implements EnvioEmailService {
