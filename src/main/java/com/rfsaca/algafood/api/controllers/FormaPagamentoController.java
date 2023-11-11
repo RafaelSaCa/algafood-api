@@ -59,7 +59,15 @@ public class FormaPagamentoController {
                 .toCollectionDto(todasFormasPagamentos);
 
         return ResponseEntity.ok()
-                .cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
+                // .cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
+                // .cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).cachePrivate())
+                // //cache local
+                // .cacheControl(CacheControl.noCache()) //validação no servidor para verificar
+                // se
+                // os dados no cache estão velhos.
+                // .cacheControl(CacheControl.noStore()) //a resposta não pode ser armazenada em
+                // cache
+                .cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).cachePublic()) // cache local e compartilhado
                 .body(formasPagamentosDtos);
 
     }
