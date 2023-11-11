@@ -63,10 +63,13 @@ public class FormaPagamentoController {
 
         OffsetDateTime dataUltimaAtualizacao = formaPagamentoRepository.getDataUltimaAtualizacao();
 
+        // gera o Etag com os segundos até a data da utlima atualização
         if (dataUltimaAtualizacao != null) {
             eTag = String.valueOf(dataUltimaAtualizacao.toEpochSecond());
         }
 
+        // verifica se os dados foram modificados para serem enviados para resposta,
+        // caso retorne null o dados são buscados no cache.
         if (request.checkNotModified(eTag)) {
             return null;
         }
