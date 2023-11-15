@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import com.rfsaca.algafood.api.ResourceUriHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -58,7 +59,16 @@ public class CidadeController {
     public CidadeDto buscar(@PathVariable Long cidadeId) {
         Cidade cidade = cidadeService.buscarOuFalhar(cidadeId);
 
-        return cidadeDtoAssembler.toDto(cidade);
+        CidadeDto cidadeDto = cidadeDtoAssembler.toDto(cidade);
+
+        cidadeDto.add(Link.of("http://localhost:8080/cidades/1"));
+
+
+        cidadeDto.add(Link.of("http://localhost:8080/cidades", "cidades"));
+
+        cidadeDto.getEstado().add(Link.of("http://localhost:8080/estados/1"));
+
+        return cidadeDto;
     }
 
     @PostMapping
