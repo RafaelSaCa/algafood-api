@@ -1,11 +1,16 @@
 package com.rfsaca.algafood.api.controllers;
 
+import java.net.URI;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import com.rfsaca.algafood.api.ResourceUriHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +30,9 @@ import com.rfsaca.algafood.domain.exceptions.NegocioException;
 import com.rfsaca.algafood.domain.models.Cidade;
 import com.rfsaca.algafood.domain.repositories.CidadeRepository;
 import com.rfsaca.algafood.domain.services.CidadeService;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping("/cidades")
@@ -59,7 +67,12 @@ public class CidadeController {
         try {
             Cidade cidade = cidadeInputDisassembler.toDomainObject(cidadeInput);
             cidade = cidadeService.salvar(cidade);
-            return cidadeDtoAssembler.toDto(cidade);
+
+            CidadeDto cidadeDto= cidadeDtoAssembler.toDto(cidade);
+
+            ResourceUriHelper.addUriResponseHeader(cidadeDto.getId());
+
+          return  cidadeDto;
         } catch (EstadoNaoEncontradoException e) {
             throw new NegocioException(e.getMessage(), e);
         }
