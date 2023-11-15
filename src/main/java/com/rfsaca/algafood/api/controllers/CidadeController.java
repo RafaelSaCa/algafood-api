@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import com.rfsaca.algafood.api.ResourceUriHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,13 +61,19 @@ public class CidadeController {
         Cidade cidade = cidadeService.buscarOuFalhar(cidadeId);
 
         CidadeDto cidadeDto = cidadeDtoAssembler.toDto(cidade);
+         cidadeDto.add(WebMvcLinkBuilder.linkTo(CidadeController.class)
+                 .slash(cidadeDto.getId()).withSelfRel());
 
-        cidadeDto.add(Link.of("http://localhost:8080/cidades/1"));
+        //cidadeDto.add(Link.of("http://localhost:8080/cidades/1"));
 
+        cidadeDto.add(WebMvcLinkBuilder.linkTo(CidadeController.class)
+                .withRel("cidades"));
 
-        cidadeDto.add(Link.of("http://localhost:8080/cidades", "cidades"));
+       // cidadeDto.add(Link.of("http://localhost:8080/cidades", "cidades"));
 
-        cidadeDto.getEstado().add(Link.of("http://localhost:8080/estados/1"));
+        cidadeDto.getEstado().add(WebMvcLinkBuilder.linkTo(EstadoController.class)
+                .slash(cidadeDto.getEstado().getId()).withSelfRel());
+       // cidadeDto.getEstado().add(Link.of("http://localhost:8080/estados/1"));
 
         return cidadeDto;
     }
