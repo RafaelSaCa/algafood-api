@@ -1,28 +1,6 @@
 package com.rfsaca.algafood.api.controllers;
 
-import java.net.URI;
-import java.util.List;
-
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-
 import com.rfsaca.algafood.api.ResourceUriHelper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.Link;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.rfsaca.algafood.api.assembler.CidadeDtoAssembler;
 import com.rfsaca.algafood.api.assembler.CidadeInputDisassembler;
 import com.rfsaca.algafood.api.model.CidadeDto;
@@ -32,9 +10,16 @@ import com.rfsaca.algafood.domain.exceptions.NegocioException;
 import com.rfsaca.algafood.domain.models.Cidade;
 import com.rfsaca.algafood.domain.repositories.CidadeRepository;
 import com.rfsaca.algafood.domain.services.CidadeService;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/cidades")
@@ -61,18 +46,28 @@ public class CidadeController {
         Cidade cidade = cidadeService.buscarOuFalhar(cidadeId);
 
         CidadeDto cidadeDto = cidadeDtoAssembler.toDto(cidade);
-         cidadeDto.add(WebMvcLinkBuilder.linkTo(CidadeController.class)
-                 .slash(cidadeDto.getId()).withSelfRel());
+
+        cidadeDto.add(linkTo(methodOn(CidadeController.class)
+                .buscar(cidadeDto.getId())).withSelfRel());
+
+        cidadeDto.add(linkTo(methodOn(CidadeController.class)
+                .listar()).withRel("cidades"));
+
+        cidadeDto.getEstado().add(linkTo(methodOn(EstadoController.class)
+                .buscar(cidadeDto.getEstado().getId())).withSelfRel());
+
+        //cidadeDto.add(WebMvcLinkBuilder.linkTo(CidadeController.class)
+           //      .slash(cidadeDto.getId()).withSelfRel());
 
         //cidadeDto.add(Link.of("http://localhost:8080/cidades/1"));
 
-        cidadeDto.add(WebMvcLinkBuilder.linkTo(CidadeController.class)
-                .withRel("cidades"));
+       // cidadeDto.add(WebMvcLinkBuilder.linkTo(CidadeController.class)
+       //         .withRel("cidades"));
 
        // cidadeDto.add(Link.of("http://localhost:8080/cidades", "cidades"));
 
-        cidadeDto.getEstado().add(WebMvcLinkBuilder.linkTo(EstadoController.class)
-                .slash(cidadeDto.getEstado().getId()).withSelfRel());
+      //  cidadeDto.getEstado().add(WebMvcLinkBuilder.linkTo(EstadoController.class)
+      //          .slash(cidadeDto.getEstado().getId()).withSelfRel());
        // cidadeDto.getEstado().add(Link.of("http://localhost:8080/estados/1"));
 
         return cidadeDto;
