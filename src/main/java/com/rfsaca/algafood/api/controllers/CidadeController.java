@@ -41,49 +41,16 @@ public class CidadeController {
     public CollectionModel<CidadeDto> listar() {
         List<Cidade> todasCidades = cidadeRepository.findAll();
 
-        List<CidadeDto> cidadeDtos = cidadeDtoAssembler.toCollectionDto(todasCidades);
+        return cidadeDtoAssembler.toCollectionModel(todasCidades);
 
-        cidadeDtos.forEach(cidadeDto -> {
-            cidadeDto.add(WebMvcLinkBuilder.linkTo(CidadeController.class).slash(cidadeDto.getId()).withSelfRel());
-
-            cidadeDto.add(WebMvcLinkBuilder.linkTo(CidadeController.class).withRel("cidades"));
-
-            cidadeDto.getEstado().add(
-                    WebMvcLinkBuilder.linkTo(EstadoController.class).slash(cidadeDto.getEstado().getId())
-                            .withSelfRel());
-
-        });
-        CollectionModel<CidadeDto> cidadesCollectionModel = CollectionModel.of(cidadeDtos);
-
-        cidadesCollectionModel.add(linkTo(CidadeController.class).withSelfRel());
-        return cidadesCollectionModel;
     }
 
     @GetMapping("/{cidadeId}")
     public CidadeDto buscar(@PathVariable Long cidadeId) {
         Cidade cidade = cidadeService.buscarOuFalhar(cidadeId);
 
-        CidadeDto cidadeDto = cidadeDtoAssembler.toDto(cidade);
+        return cidadeDtoAssembler.toModel(cidade);
 
-        /*
-         * cidadeDto.add(linkTo(methodOn(CidadeController.class)
-         * .buscar(cidadeDto.getId())).withSelfRel());
-         * 
-         * cidadeDto.add(linkTo(methodOn(CidadeController.class)
-         * .listar()).withRel("cidades"));
-         * 
-         * cidadeDto.getEstado().add(linkTo(methodOn(EstadoController.class)
-         * .buscar(cidadeDto.getEstado().getId())).withSelfRel());
-         */
-
-        cidadeDto.add(WebMvcLinkBuilder.linkTo(CidadeController.class).slash(cidadeDto.getId()).withSelfRel());
-
-        cidadeDto.add(WebMvcLinkBuilder.linkTo(CidadeController.class).withRel("cidades"));
-
-        cidadeDto.getEstado().add(
-                WebMvcLinkBuilder.linkTo(EstadoController.class).slash(cidadeDto.getEstado().getId()).withSelfRel());
-
-        return cidadeDto;
     }
 
     @PostMapping
@@ -93,7 +60,7 @@ public class CidadeController {
             Cidade cidade = cidadeInputDisassembler.toDomainObject(cidadeInput);
             cidade = cidadeService.salvar(cidade);
 
-            CidadeDto cidadeDto = cidadeDtoAssembler.toDto(cidade);
+            CidadeDto cidadeDto = cidadeDtoAssembler.toModel(cidade);
 
             ResourceUriHelper.addUriResponseHeader(cidadeDto.getId());
 
@@ -111,7 +78,7 @@ public class CidadeController {
             cidadeInputDisassembler.copyToDomainObject(cidadeInput, cidadeAtual);
 
             cidadeAtual = cidadeService.salvar(cidadeAtual);
-            return cidadeDtoAssembler.toDto(cidadeAtual);
+            return cidadeDtoAssembler.toModel(cidadeAtual);
 
         } catch (EstadoNaoEncontradoException e) {
             throw new NegocioException(e.getMessage(), e);
