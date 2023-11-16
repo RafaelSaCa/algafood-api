@@ -11,11 +11,14 @@ import com.rfsaca.algafood.domain.models.Cidade;
 import com.rfsaca.algafood.domain.repositories.CidadeRepository;
 import com.rfsaca.algafood.domain.services.CidadeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
+import java.util.Collection;
 import java.util.List;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -35,10 +38,25 @@ public class CidadeController {
     private CidadeInputDisassembler cidadeInputDisassembler;
 
     @GetMapping
-    public List<CidadeDto> listar() {
+    public CollectionModel<CidadeDto> listar() {
         List<Cidade> todasCidades = cidadeRepository.findAll();
 
-        return cidadeDtoAssembler.toCollectionDto(todasCidades);
+        List<CidadeDto> cidadeDtos = cidadeDtoAssembler.toCollectionDto(todasCidades);
+
+        cidadeDtos.forEach(cidadeDto -> {
+            cidadeDto.add(WebMvcLinkBuilder.linkTo(CidadeController.class).slash(cidadeDto.getId()).withSelfRel());
+
+            cidadeDto.add(WebMvcLinkBuilder.linkTo(CidadeController.class).withRel("cidades"));
+
+            cidadeDto.getEstado().add(
+                    WebMvcLinkBuilder.linkTo(EstadoController.class).slash(cidadeDto.getEstado().getId())
+                            .withSelfRel());
+
+        });
+        CollectionModel<CidadeDto> cidadesCollectionModel = CollectionModel.of(cidadeDtos);
+
+        cidadesCollectionModel.add(linkTo(CidadeController.class).withSelfRel());
+        return cidadesCollectionModel;
     }
 
     @GetMapping("/{cidadeId}")
@@ -47,28 +65,23 @@ public class CidadeController {
 
         CidadeDto cidadeDto = cidadeDtoAssembler.toDto(cidade);
 
-        cidadeDto.add(linkTo(methodOn(CidadeController.class)
-                .buscar(cidadeDto.getId())).withSelfRel());
+        /*
+         * cidadeDto.add(linkTo(methodOn(CidadeController.class)
+         * .buscar(cidadeDto.getId())).withSelfRel());
+         * 
+         * cidadeDto.add(linkTo(methodOn(CidadeController.class)
+         * .listar()).withRel("cidades"));
+         * 
+         * cidadeDto.getEstado().add(linkTo(methodOn(EstadoController.class)
+         * .buscar(cidadeDto.getEstado().getId())).withSelfRel());
+         */
 
-        cidadeDto.add(linkTo(methodOn(CidadeController.class)
-                .listar()).withRel("cidades"));
+        cidadeDto.add(WebMvcLinkBuilder.linkTo(CidadeController.class).slash(cidadeDto.getId()).withSelfRel());
 
-        cidadeDto.getEstado().add(linkTo(methodOn(EstadoController.class)
-                .buscar(cidadeDto.getEstado().getId())).withSelfRel());
+        cidadeDto.add(WebMvcLinkBuilder.linkTo(CidadeController.class).withRel("cidades"));
 
-        //cidadeDto.add(WebMvcLinkBuilder.linkTo(CidadeController.class)
-           //      .slash(cidadeDto.getId()).withSelfRel());
-
-        //cidadeDto.add(Link.of("http://localhost:8080/cidades/1"));
-
-       // cidadeDto.add(WebMvcLinkBuilder.linkTo(CidadeController.class)
-       //         .withRel("cidades"));
-
-       // cidadeDto.add(Link.of("http://localhost:8080/cidades", "cidades"));
-
-      //  cidadeDto.getEstado().add(WebMvcLinkBuilder.linkTo(EstadoController.class)
-      //          .slash(cidadeDto.getEstado().getId()).withSelfRel());
-       // cidadeDto.getEstado().add(Link.of("http://localhost:8080/estados/1"));
+        cidadeDto.getEstado().add(
+                WebMvcLinkBuilder.linkTo(EstadoController.class).slash(cidadeDto.getEstado().getId()).withSelfRel());
 
         return cidadeDto;
     }
@@ -80,11 +93,11 @@ public class CidadeController {
             Cidade cidade = cidadeInputDisassembler.toDomainObject(cidadeInput);
             cidade = cidadeService.salvar(cidade);
 
-            CidadeDto cidadeDto= cidadeDtoAssembler.toDto(cidade);
+            CidadeDto cidadeDto = cidadeDtoAssembler.toDto(cidade);
 
             ResourceUriHelper.addUriResponseHeader(cidadeDto.getId());
 
-          return  cidadeDto;
+            return cidadeDto;
         } catch (EstadoNaoEncontradoException e) {
             throw new NegocioException(e.getMessage(), e);
         }
