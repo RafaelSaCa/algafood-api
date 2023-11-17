@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,10 +43,10 @@ public class UsuarioController {
     private UsuarioInputDisassembler usuarioInputDisassembler;
 
     @GetMapping
-    public List<UsuarioDto> listar() {
+    public CollectionModel<UsuarioDto> listar() {
         List<Usuario> todosUsuarios = usuarioRepository.findAll();
 
-        return usuarioDtoAssembler.toCollectionDto(todosUsuarios);
+        return usuarioDtoAssembler.toCollectionModel(todosUsuarios);
     }
 
     @GetMapping("/{usuarioId}")

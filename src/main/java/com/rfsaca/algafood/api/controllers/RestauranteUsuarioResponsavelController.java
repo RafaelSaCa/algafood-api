@@ -3,6 +3,7 @@ package com.rfsaca.algafood.api.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,10 +28,10 @@ public class RestauranteUsuarioResponsavelController {
     private UsuarioDtoAssembler usuarioDtoAssembler;
 
     @GetMapping
-    public List<UsuarioDto> listar(@PathVariable Long restauranteId) {
+    public CollectionModel<UsuarioDto> listar(@PathVariable Long restauranteId) {
         Restaurante restaurante = restauranteService.buscarOuFalhar(restauranteId);
 
-        return usuarioDtoAssembler.toCollectionDto(restaurante.getResponsaveis());
+        return usuarioDtoAssembler.toCollectionModel(restaurante.getResponsaveis());
     }
 
     @PutMapping("/{usuarioId}")
