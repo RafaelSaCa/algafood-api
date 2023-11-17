@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,9 +39,9 @@ public class EstadoController {
     private EstadoInputDisassembler estadoInputDisassembler;
 
     @GetMapping
-    public List<EstadoDto> listar() {
+    public CollectionModel<EstadoDto> listar() {
         List<Estado> todosEstados = estadoRepository.findAll();
-        return estadoDtoAssembler.toCollectionDto(todosEstados);
+        return estadoDtoAssembler.toCollectionModel(todosEstados);
     }
 
     @GetMapping("/{estadoId}")
