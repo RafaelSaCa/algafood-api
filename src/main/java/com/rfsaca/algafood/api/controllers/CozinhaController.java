@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,21 +43,22 @@ public class CozinhaController {
     @Autowired
     private CozinhaInputDisassembler cozinhaInputDisassembler;
 
+    @Autowired
+    private PagedResourcesAssembler<Cozinha> pagedResourcesAssembler;
+
     @GetMapping
-    public Page<CozinhaDto> listar(@PageableDefault(size = 2) Pageable pageable) {
+    public PagedModel<CozinhaDto> listar(@PageableDefault(size = 2) Pageable pageable) {
         Page<Cozinha> cozinhasPage = cozinhaRepository.findAll(pageable);
 
-        List<CozinhaDto> cozinhasDto = cozinhaDtoAssembler.toCollectionDto(cozinhasPage.getContent());
-
-        Page<CozinhaDto> cozinhaDtoPage = new PageImpl<>(cozinhasDto, pageable, cozinhasPage.getTotalElements());
-
-        return cozinhaDtoPage;
+        PagedModel<CozinhaDto> cozinhasPagedModel = pagedResourcesAssembler
+                .toModel(cozinhasPage, cozinhaDtoAssembler);
+        return cozinhasPagedModel;
     }
 
     @GetMapping("/{cozinhaId}")
     public CozinhaDto buscar(@PathVariable Long cozinhaId) {
         Cozinha cozinha = cozinhaService.buscarOuFalhar(cozinhaId);
-        return cozinhaDtoAssembler.toDto(cozinha);
+        return cozinhaDtoAssembler.toModel(cozinha);
     }
 
     @PostMapping
@@ -64,7 +67,7 @@ public class CozinhaController {
         Cozinha cozinha = cozinhaInputDisassembler.toDomainObject(cozinhaInput);
         cozinha = cozinhaService.salvar(cozinha);
 
-        return cozinhaDtoAssembler.toDto(cozinha);
+        return cozinhaDtoAssembler.toModel(cozinha);
     }
 
     @PutMapping("/{cozinhaId}")
@@ -74,7 +77,7 @@ public class CozinhaController {
         cozinhaInputDisassembler.copyToDomainObject(cozinhaInput, cozinhaAtual);
         cozinhaAtual = cozinhaService.salvar(cozinhaAtual);
 
-        return cozinhaDtoAssembler.toDto(cozinhaAtual);
+        return cozinhaDtoAssembler.toModel(cozinhaAtual);
     }
 
     @DeleteMapping("/{cozinhaId}")
