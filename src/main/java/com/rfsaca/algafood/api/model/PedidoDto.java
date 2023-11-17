@@ -4,12 +4,16 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
 
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
+
 import lombok.Getter;
 import lombok.Setter;
 
+@Relation(collectionRelation = "pedidos")
 @Getter
 @Setter
-public class PedidoDto {
+public class PedidoDto extends RepresentationModel<PedidoDto> {
 
     private String codigo;
     private BigDecimal subtotal;
