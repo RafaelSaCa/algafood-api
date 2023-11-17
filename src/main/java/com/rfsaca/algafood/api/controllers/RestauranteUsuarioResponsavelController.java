@@ -1,6 +1,7 @@
 package com.rfsaca.algafood.api.controllers;
 
-import java.util.List;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
@@ -31,7 +32,10 @@ public class RestauranteUsuarioResponsavelController {
     public CollectionModel<UsuarioDto> listar(@PathVariable Long restauranteId) {
         Restaurante restaurante = restauranteService.buscarOuFalhar(restauranteId);
 
-        return usuarioDtoAssembler.toCollectionModel(restaurante.getResponsaveis());
+        return usuarioDtoAssembler.toCollectionModel(restaurante.getResponsaveis())
+                .removeLinks()
+                .add(linkTo(methodOn(RestauranteUsuarioResponsavelController.class)
+                        .listar(restauranteId)).withSelfRel());
     }
 
     @PutMapping("/{usuarioId}")
