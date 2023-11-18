@@ -9,6 +9,11 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.TemplateVariable;
+import org.springframework.hateoas.TemplateVariables;
+import org.springframework.hateoas.UriTemplate;
+import org.springframework.hateoas.TemplateVariable.VariableType;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
@@ -24,46 +29,55 @@ import com.rfsaca.algafood.domain.models.Pedido;
 @Component
 public class PedidoDtoAssembler extends RepresentationModelAssemblerSupport<Pedido, PedidoDto> {
 
-    public PedidoDtoAssembler() {
-        super(PedidoController.class, PedidoDto.class);
+        public PedidoDtoAssembler() {
+                super(PedidoController.class, PedidoDto.class);
 
-    }
+        }
 
-    @Autowired
-    private ModelMapper modelMapper;
+        @Autowired
+        private ModelMapper modelMapper;
 
-    @Override
-    public PedidoDto toModel(Pedido pedido) {
+        @Override
+        public PedidoDto toModel(Pedido pedido) {
 
-        PedidoDto pedidoDto = createModelWithId(pedido.getCodigo(), pedido);
-        modelMapper.map(pedido, pedidoDto);
+                PedidoDto pedidoDto = createModelWithId(pedido.getCodigo(), pedido);
+                modelMapper.map(pedido, pedidoDto);
 
-        pedidoDto.add(linkTo(PedidoController.class).withRel("pedidos"));
+                TemplateVariables pageVariables = new TemplateVariables(
+                                new TemplateVariable("page", VariableType.REQUEST_PARAM),
+                                new TemplateVariable("size", VariableType.REQUEST_PARAM),
+                                new TemplateVariable("sort", VariableType.REQUEST_PARAM));
 
-        pedidoDto.getRestaurante().add(linkTo(methodOn(RestauranteController.class)
-                .buscar(pedido.getRestaurante().getId())).withSelfRel());
+                String pedidosUrl = linkTo(PedidoController.class).toUri().toString();
 
-        pedidoDto.getCliente().add(linkTo(methodOn(UsuarioController.class)
-                .buscar(pedido.getCliente().getId())).withSelfRel());
+                pedidoDto.add(Link.of(UriTemplate.of(pedidosUrl, pageVariables), "pedidos"));
 
-        pedidoDto.getFormaPagamento().add(linkTo(methodOn(FormaPagamentoController.class)
-                .buscar(pedido.getFormaPagamento().getId(), null)).withSelfRel());
+                // pedidoDto.add(linkTo(PedidoController.class).withRel("pedidos"));
 
-        pedidoDto.getEnderecoEntrega().getCidade().add(linkTo(methodOn(CidadeController.class)
-                .buscar(pedido.getEnderecoEntrega().getCidade().getId())).withSelfRel());
+                pedidoDto.getRestaurante().add(linkTo(methodOn(RestauranteController.class)
+                                .buscar(pedido.getRestaurante().getId())).withSelfRel());
 
-        pedidoDto.getItens().forEach(item -> {
-            item.add(linkTo(methodOn(ProdutoController.class)
-                    .buscar(pedidoDto.getRestaurante().getId(), item.getProdutoId()))
-                    .withRel("produto"));
-        });
+                pedidoDto.getCliente().add(linkTo(methodOn(UsuarioController.class)
+                                .buscar(pedido.getCliente().getId())).withSelfRel());
 
-        return pedidoDto;
-    }
+                pedidoDto.getFormaPagamento().add(linkTo(methodOn(FormaPagamentoController.class)
+                                .buscar(pedido.getFormaPagamento().getId(), null)).withSelfRel());
 
-    public List<PedidoDto> toCollectionDto(Collection<Pedido> pedidos) {
-        return pedidos.stream()
-                .map(pedido -> toModel(pedido))
-                .collect(Collectors.toList());
-    }
+                pedidoDto.getEnderecoEntrega().getCidade().add(linkTo(methodOn(CidadeController.class)
+                                .buscar(pedido.getEnderecoEntrega().getCidade().getId())).withSelfRel());
+
+                pedidoDto.getItens().forEach(item -> {
+                        item.add(linkTo(methodOn(ProdutoController.class)
+                                        .buscar(pedidoDto.getRestaurante().getId(), item.getProdutoId()))
+                                        .withRel("produto"));
+                });
+
+                return pedidoDto;
+        }
+
+        public List<PedidoDto> toCollectionDto(Collection<Pedido> pedidos) {
+                return pedidos.stream()
+                                .map(pedido -> toModel(pedido))
+                                .collect(Collectors.toList());
+        }
 }
