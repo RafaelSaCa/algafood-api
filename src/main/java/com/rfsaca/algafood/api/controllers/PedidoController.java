@@ -27,6 +27,7 @@ import com.rfsaca.algafood.api.assembler.PedidoResumoDtoAssembler;
 import com.rfsaca.algafood.api.model.PedidoDto;
 import com.rfsaca.algafood.api.model.PedidoResumoDto;
 import com.rfsaca.algafood.api.model.input.PedidoInput;
+import com.rfsaca.algafood.core.data.PageWrapper;
 import com.rfsaca.algafood.core.data.PageableTranslator;
 import com.rfsaca.algafood.domain.exceptions.EntidadeNaoEncontradaException;
 import com.rfsaca.algafood.domain.exceptions.NegocioException;
@@ -87,7 +88,11 @@ public class PedidoController {
             @PageableDefault(size = 10) Pageable pageable) {
         pageable = traduzirPageable(pageable);
 
+        Pageable pageableTraduzido = traduzirPageable(pageable);
+
         Page<Pedido> pedidosPage = pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filtro), pageable);
+
+        pedidosPage = new PageWrapper<>(pedidosPage, pageable);
 
         return pagedResourcesAssembler.toModel(pedidosPage, pedidoResumoDtoAssembler);
     }
