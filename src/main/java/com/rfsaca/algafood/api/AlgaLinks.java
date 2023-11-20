@@ -14,6 +14,7 @@ import org.springframework.hateoas.UriTemplate;
 import com.rfsaca.algafood.api.controllers.CidadeController;
 import com.rfsaca.algafood.api.controllers.CozinhaController;
 import com.rfsaca.algafood.api.controllers.EstadoController;
+import com.rfsaca.algafood.api.controllers.FluxoPedidoController;
 import com.rfsaca.algafood.api.controllers.FormaPagamentoController;
 import com.rfsaca.algafood.api.controllers.PedidoController;
 import com.rfsaca.algafood.api.controllers.ProdutoController;
@@ -45,6 +46,21 @@ public class AlgaLinks {
                 return Link.of(UriTemplate.of(pedidosUrl,
                                 PAGINACAO_VARIABLES.concat(filtroVariables)), rel);
 
+        }
+
+        public Link linkToConfirmacaoPedido(String codigoPedido, String rel) {
+                return linkTo(methodOn(FluxoPedidoController.class).confirmar(codigoPedido))
+                                .withRel(rel);
+        }
+
+        public Link linkToCancelamentoPedido(String codigoPedido, String rel) {
+                return linkTo(methodOn(FluxoPedidoController.class).cancelar(codigoPedido))
+                                .withRel(rel);
+        }
+
+        public Link linkToEntregaPedido(String codigoPedido, String rel) {
+                return linkTo(methodOn(FluxoPedidoController.class).entregar(codigoPedido))
+                                .withRel(rel);
         }
 
         public Link linkToRestaurante(Long restauranteId, String rel) {
