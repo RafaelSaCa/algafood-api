@@ -43,11 +43,20 @@ public class PedidoDtoAssembler extends RepresentationModelAssemblerSupport<Pedi
 
                 pedidoDto.add(algaLinks.linkToPedidos("pedidos"));
 
-                pedidoDto.add(algaLinks.linkToConfirmacaoPedido(pedido.getCodigo(), "confirmar"));
+                if (pedido.poderSerConfirmado()) {
+                        pedidoDto.add(algaLinks.linkToConfirmacaoPedido(pedido.getCodigo(), "confirmar"));
 
-                pedidoDto.add(algaLinks.linkToCancelamentoPedido(pedido.getCodigo(), "cancelar"));
+                }
 
-                pedidoDto.add(algaLinks.linkToEntregaPedido(pedido.getCodigo(), "entregar"));
+                if (pedido.poderSerCancelado()) {
+                        pedidoDto.add(algaLinks.linkToCancelamentoPedido(pedido.getCodigo(), "cancelar"));
+
+                }
+
+                if (pedido.poderSerEntregue()) {
+                        pedidoDto.add(algaLinks.linkToEntregaPedido(pedido.getCodigo(), "entregar"));
+
+                }
 
                 pedidoDto.getRestaurante().add(linkTo(methodOn(RestauranteController.class)
                                 .buscar(pedido.getRestaurante().getId())).withSelfRel());
