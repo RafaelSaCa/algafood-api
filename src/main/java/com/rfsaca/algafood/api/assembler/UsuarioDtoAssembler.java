@@ -13,6 +13,7 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
+import com.rfsaca.algafood.api.AlgaLinks;
 import com.rfsaca.algafood.api.controllers.UsuarioController;
 import com.rfsaca.algafood.api.controllers.UsuarioGrupoController;
 import com.rfsaca.algafood.api.model.UsuarioDto;
@@ -28,8 +29,16 @@ public class UsuarioDtoAssembler extends RepresentationModelAssemblerSupport<Usu
     @Autowired
     private ModelMapper modelMapper;
 
+    private AlgaLinks algaLinks;
+
     public UsuarioDto toDto(Usuario usuario) {
-        return modelMapper.map(usuario, UsuarioDto.class);
+        UsuarioDto usuarioDto = createModelWithId(usuario.getId(), usuario);
+        modelMapper.map(usuario, UsuarioDto.class);
+
+        usuarioDto.add(algaLinks.linkToUsuarios("usuarios"));
+        usuarioDto.add(algaLinks.linkToGruposUsuario(usuario.getId(), "grupos-usuario"));
+
+        return usuarioDto;  
     }
 
     public List<UsuarioDto> toCollectionDto(Collection<Usuario> usuarios) {

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
+import com.rfsaca.algafood.api.AlgaLinks;
 import com.rfsaca.algafood.api.controllers.CozinhaController;
 import com.rfsaca.algafood.api.model.CozinhaDto;
 import com.rfsaca.algafood.domain.models.Cozinha;
@@ -20,6 +21,8 @@ public class CozinhaDtoAssembler extends RepresentationModelAssemblerSupport<Coz
     @Autowired
     private ModelMapper modelMapper;
 
+    private AlgaLinks algaLinks;
+
     public CozinhaDtoAssembler() {
         super(CozinhaController.class, CozinhaDto.class);
 
@@ -28,11 +31,9 @@ public class CozinhaDtoAssembler extends RepresentationModelAssemblerSupport<Coz
     @Override
     public CozinhaDto toModel(Cozinha cozinha) {
         CozinhaDto cozinhaDto = createModelWithId(cozinha.getId(), cozinha);
-
         modelMapper.map(cozinha, CozinhaDto.class);
 
-        cozinhaDto.add(linkTo(CozinhaController.class).withRel("cozinhas"));
-
+        cozinhaDto.add(algaLinks.linkToCozinhas("cozinhas"));
         return cozinhaDto;
     }
 

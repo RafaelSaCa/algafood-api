@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
+import com.rfsaca.algafood.api.AlgaLinks;
 import com.rfsaca.algafood.api.controllers.PedidoController;
 import com.rfsaca.algafood.api.controllers.RestauranteController;
 import com.rfsaca.algafood.api.controllers.UsuarioController;
@@ -29,6 +30,8 @@ public class PedidoResumoDtoAssembler extends RepresentationModelAssemblerSuppor
     @Autowired
     private ModelMapper modelMapper;
 
+    private AlgaLinks algaLinks;
+
     @Override
     public PedidoResumoDto toModel(Pedido pedido) {
         PedidoResumoDto pedidoDto = createModelWithId(pedido.getCodigo(), pedido);
@@ -44,11 +47,11 @@ public class PedidoResumoDtoAssembler extends RepresentationModelAssemblerSuppor
 
         return pedidoDto;
     }
-
-    public List<PedidoResumoDto> toCollectionDto(Collection<Pedido> pedidos) {
-        return pedidos.stream()
-                .map(pedido -> toModel(pedido))
-                .collect(Collectors.toList());
-    }
-
+    /*
+     * public List<PedidoResumoDto> toCollectionDto(Collection<Pedido> pedidos) {
+     * return pedidos.stream()
+     * .map(pedido -> toModel(pedido))
+     * .collect(Collectors.toList());
+     * }
+     */
 }

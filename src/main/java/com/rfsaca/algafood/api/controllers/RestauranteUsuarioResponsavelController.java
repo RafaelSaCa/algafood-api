@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rfsaca.algafood.api.AlgaLinks;
 import com.rfsaca.algafood.api.assembler.UsuarioDtoAssembler;
 import com.rfsaca.algafood.api.model.UsuarioDto;
 import com.rfsaca.algafood.domain.models.Restaurante;
@@ -27,6 +28,8 @@ public class RestauranteUsuarioResponsavelController {
     private RestauranteService restauranteService;
     @Autowired
     private UsuarioDtoAssembler usuarioDtoAssembler;
+
+    private AlgaLinks algaLinks;
 
     @GetMapping
     public CollectionModel<UsuarioDto> listar(@PathVariable Long restauranteId) {

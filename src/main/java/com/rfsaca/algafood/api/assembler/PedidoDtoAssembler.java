@@ -9,11 +9,6 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.Link;
-import org.springframework.hateoas.TemplateVariable;
-import org.springframework.hateoas.TemplateVariables;
-import org.springframework.hateoas.UriTemplate;
-import org.springframework.hateoas.TemplateVariable.VariableType;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
@@ -38,7 +33,6 @@ public class PedidoDtoAssembler extends RepresentationModelAssemblerSupport<Pedi
         @Autowired
         private ModelMapper modelMapper;
 
-        @Autowired
         private AlgaLinks algaLinks;
 
         @Override
@@ -47,7 +41,7 @@ public class PedidoDtoAssembler extends RepresentationModelAssemblerSupport<Pedi
                 PedidoDto pedidoDto = createModelWithId(pedido.getCodigo(), pedido);
                 modelMapper.map(pedido, pedidoDto);
 
-                pedidoDto.add(algaLinks.linkToPedidos());
+                pedidoDto.add(algaLinks.linkToPedidos("pedidos"));
 
                 pedidoDto.getRestaurante().add(linkTo(methodOn(RestauranteController.class)
                                 .buscar(pedido.getRestaurante().getId())).withSelfRel());

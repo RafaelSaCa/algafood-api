@@ -31,6 +31,8 @@ public class RestauranteFormaPagamentoController {
     public List<FormaPagamentoDto> listar(@PathVariable Long restauranteId) {
         Restaurante restaurante = restauranteService.buscarOuFalhar(restauranteId);
 
+        
+
         return formaPagamentoDtoAssembler.toCollectionDto(restaurante.getFormasPagamento());
     }
 
