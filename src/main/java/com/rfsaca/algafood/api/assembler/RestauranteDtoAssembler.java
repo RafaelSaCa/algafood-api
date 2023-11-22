@@ -29,6 +29,26 @@ public class RestauranteDtoAssembler extends RepresentationModelAssemblerSupport
         RestauranteDto restauranteDto = createModelWithId(restaurante.getId(), restaurante);
         modelMapper.map(restaurante, restauranteDto);
 
+        if (restaurante.ativacaoPermitida()) {
+            restauranteDto.add(
+                    algaLinks.linkToRestauranteAtivacao(restaurante.getId(), "ativar"));
+        }
+
+        if (restaurante.inativacaoPermitida()) {
+            restauranteDto.add(
+                    algaLinks.linkToRestauranteInativacao(restaurante.getId(), "inativar"));
+        }
+
+        if (restaurante.aberturaPermitida()) {
+            restauranteDto.add(
+                    algaLinks.linkToRestauranteAbertura(restaurante.getId(), "abrir"));
+        }
+
+        if (restaurante.fechamentoPermitido()) {
+            restauranteDto.add(
+                    algaLinks.linkToRestauranteFechamento(restaurante.getId(), "fechar"));
+        }
+
         restauranteDto.add(algaLinks.linkToRestaurantes("restaurantes"));
 
         restauranteDto.getCozinha().add(algaLinks.linkToCozinha(restaurante.getCozinha().getId()));
