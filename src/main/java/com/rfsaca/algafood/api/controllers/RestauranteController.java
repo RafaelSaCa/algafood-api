@@ -5,7 +5,9 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,12 +18,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.annotation.JsonView;
+import com.rfsaca.algafood.api.assembler.RestauranteApenasNomeDtoAssembler;
+import com.rfsaca.algafood.api.assembler.RestauranteBasicoDtoAssembler;
 import com.rfsaca.algafood.api.assembler.RestauranteDtoAssembler;
 import com.rfsaca.algafood.api.assembler.RestauranteInputDisassembler;
+import com.rfsaca.algafood.api.model.RestauranteApenasNomeDto;
+import com.rfsaca.algafood.api.model.RestauranteBasicoDto;
 import com.rfsaca.algafood.api.model.RestauranteDto;
 import com.rfsaca.algafood.api.model.input.RestauranteInput;
-import com.rfsaca.algafood.api.model.view.RestauranteView;
 import com.rfsaca.algafood.domain.exceptions.CidadeNaoEncontradaException;
 import com.rfsaca.algafood.domain.exceptions.CozinhaNaoEncontradaException;
 import com.rfsaca.algafood.domain.exceptions.NegocioException;
@@ -46,16 +50,22 @@ public class RestauranteController {
     @Autowired
     private RestauranteInputDisassembler restauranteInputDisassembler;
 
-    @JsonView(RestauranteView.Resumo.class)
+    @Autowired
+    private RestauranteBasicoDtoAssembler restauranteBasicoDtoAssembler;
+
+    @Autowired
+    private RestauranteApenasNomeDtoAssembler restauranteApenasNomeDtoAssembler;
+
+    // @JsonView(RestauranteView.Resumo.class)
     @GetMapping
-    public List<RestauranteDto> listar() {
-        return restauranteDtoAssembler.toCollectionDto(restauranteRepository.findAll());
+    public CollectionModel<RestauranteBasicoDto> listar() {
+        return restauranteBasicoDtoAssembler.toCollectionModel(restauranteRepository.findAll());
     }
 
-    @JsonView(RestauranteView.ApenasNome.class)
+    // @JsonView(RestauranteView.ApenasNome.class)
     @GetMapping(params = "projecao=apenas-nome")
-    public List<RestauranteDto> listarApenasNomes() {
-        return restauranteDtoAssembler.toCollectionDto(restauranteRepository.findAll());
+    public CollectionModel<RestauranteApenasNomeDto> listarApenasNomes() {
+        return restauranteApenasNomeDtoAssembler.toCollectionModel(restauranteRepository.findAll());
     }
 
     // @GetMapping
@@ -85,7 +95,7 @@ public class RestauranteController {
         try {
             Restaurante restaurante = restauranteInputDisassembler.toDomainObject(restauranteInput);
 
-            return restauranteDtoAssembler.toDto(restauranteService.salvar(restaurante));
+            return restauranteDtoAssembler.toModel(restauranteService.salvar(restaurante));
         } catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
             throw new NegocioException(e.getLocalizedMessage());
         }
@@ -96,7 +106,7 @@ public class RestauranteController {
     public RestauranteDto buscar(@PathVariable Long restauranteId) {
         Restaurante restaurante = restauranteService.buscarOuFalhar(restauranteId);
 
-        return restauranteDtoAssembler.toDto(restaurante);
+        return restauranteDtoAssembler.toModel(restaurante);
 
     }
 
@@ -108,7 +118,7 @@ public class RestauranteController {
 
             restauranteInputDisassembler.copyToDomainObject(restauranteInput, restauranteAtual);
 
-            return restauranteDtoAssembler.toDto(restauranteService.salvar(restauranteAtual));
+            return restauranteDtoAssembler.toModel(restauranteService.salvar(restauranteAtual));
         } catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }
@@ -117,14 +127,18 @@ public class RestauranteController {
 
     @PutMapping("/{restauranteId}/ativo")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void ativar(@PathVariable Long restauranteId) {
+    public ResponseEntity<Void> ativar(@PathVariable Long restauranteId) {
         restauranteService.ativar(restauranteId);
+
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{restauranteId}/ativo")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void inativar(@PathVariable Long restauranteId) {
+    public ResponseEntity<Void> inativar(@PathVariable Long restauranteId) {
         restauranteService.inativar(restauranteId);
+
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/ativacoes")
@@ -151,13 +165,17 @@ public class RestauranteController {
 
     @PutMapping("/{restauranteId}/abertura")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void abrir(@PathVariable Long restauranteId) {
+    public ResponseEntity<Void> abrir(@PathVariable Long restauranteId) {
         restauranteService.abrir(restauranteId);
+
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{restauranteId}/fechamento")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void fechar(@PathVariable Long restauranteId) {
+    public ResponseEntity<Void> fechar(@PathVariable Long restauranteId) {
         restauranteService.fechar(restauranteId);
+
+        return ResponseEntity.noContent().build();
     }
 }

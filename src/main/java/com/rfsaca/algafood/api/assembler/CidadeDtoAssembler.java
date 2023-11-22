@@ -1,17 +1,13 @@
 package com.rfsaca.algafood.api.assembler;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Component;
 
 import com.rfsaca.algafood.api.AlgaLinks;
 import com.rfsaca.algafood.api.controllers.CidadeController;
-import com.rfsaca.algafood.api.controllers.EstadoController;
 import com.rfsaca.algafood.api.model.CidadeDto;
 import com.rfsaca.algafood.domain.models.Cidade;
 
@@ -38,13 +34,11 @@ public class CidadeDtoAssembler extends RepresentationModelAssemblerSupport<Cida
 
         return cidadeDto;
     }
-    /*
-     * @Override
-     * public CollectionModel<CidadeDto> toCollectionModel(Iterable<? extends
-     * Cidade> entities) {
-     * return super.toCollectionModel(entities)
-     * .add(linkTo(CidadeController.class).withSelfRel());
-     * }
-     */
+
+    @Override
+    public CollectionModel<CidadeDto> toCollectionModel(Iterable<? extends Cidade> entities) {
+        return super.toCollectionModel(entities)
+                .add(algaLinks.linkToCidades());
+    }
 
 }

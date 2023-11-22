@@ -38,7 +38,7 @@ public class UsuarioDtoAssembler extends RepresentationModelAssemblerSupport<Usu
         usuarioDto.add(algaLinks.linkToUsuarios("usuarios"));
         usuarioDto.add(algaLinks.linkToGruposUsuario(usuario.getId(), "grupos-usuario"));
 
-        return usuarioDto;  
+        return usuarioDto;
     }
 
     public List<UsuarioDto> toCollectionDto(Collection<Usuario> usuarios) {
@@ -64,7 +64,7 @@ public class UsuarioDtoAssembler extends RepresentationModelAssemblerSupport<Usu
     @Override
     public CollectionModel<UsuarioDto> toCollectionModel(Iterable<? extends Usuario> entities) {
         return super.toCollectionModel(entities)
-                .add(linkTo(UsuarioController.class).withSelfRel());
+                .add(algaLinks.linkToUsuarios());
     }
 
 }

@@ -19,6 +19,7 @@ import com.rfsaca.algafood.api.controllers.FormaPagamentoController;
 import com.rfsaca.algafood.api.controllers.PedidoController;
 import com.rfsaca.algafood.api.controllers.ProdutoController;
 import com.rfsaca.algafood.api.controllers.RestauranteController;
+import com.rfsaca.algafood.api.controllers.RestauranteFormaPagamentoController;
 import com.rfsaca.algafood.api.controllers.RestauranteUsuarioResponsavelController;
 import com.rfsaca.algafood.api.controllers.UsuarioController;
 import com.rfsaca.algafood.api.controllers.UsuarioGrupoController;
@@ -66,6 +67,28 @@ public class AlgaLinks {
         public Link linkToRestaurante(Long restauranteId, String rel) {
                 return linkTo(methodOn(RestauranteController.class)
                                 .buscar(restauranteId)).withRel(rel);
+        }
+
+        public Link linkToRestaurantes(String rel) {
+                return linkTo(RestauranteController.class).withRel(rel);
+        }
+
+        public Link linkToRestaurantes() {
+                return linkToRestaurantes(IanaLinkRelations.SELF.value());
+        }
+
+        public Link linkToRestauranteFormasPagamento(Long restauranteId, String rel) {
+                return linkTo(methodOn(RestauranteFormaPagamentoController.class)
+                                .listar(restauranteId)).withRel(rel);
+        }
+
+        public Link linkToCozinha(Long cozinhaId, String rel) {
+                return linkTo(methodOn(CozinhaController.class)
+                                .buscar(cozinhaId)).withRel(rel);
+        }
+
+        public Link linkToCozinha(Long cozinhaId) {
+                return linkToCozinha(cozinhaId, IanaLinkRelations.SELF.value());
         }
 
         public Link linkToRestaurante(Long restauranteId) {
