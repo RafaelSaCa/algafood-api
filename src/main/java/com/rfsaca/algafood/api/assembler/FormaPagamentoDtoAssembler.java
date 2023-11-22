@@ -6,26 +6,42 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
+import com.rfsaca.algafood.api.AlgaLinks;
+import com.rfsaca.algafood.api.controllers.FormaPagamentoController;
 import com.rfsaca.algafood.api.model.FormaPagamentoDto;
 import com.rfsaca.algafood.domain.models.FormaPagamento;
 
 @Component
-public class FormaPagamentoDtoAssembler {
+public class FormaPagamentoDtoAssembler extends RepresentationModelAssemblerSupport<FormaPagamento, FormaPagamentoDto> {
 
     @Autowired
     private ModelMapper modelMapper;
 
-    public FormaPagamentoDto toDto(FormaPagamento formaPagamento) {
-        return modelMapper.map(formaPagamento, FormaPagamentoDto.class);
+    private AlgaLinks algaLinks;
+
+    public FormaPagamentoDtoAssembler() {
+        super(FormaPagamentoController.class, FormaPagamentoDto.class);
+
     }
 
-    // alterado de List para Collection para receber o Set de formas de pagamento
-    public List<FormaPagamentoDto> toCollectionDto(Collection<FormaPagamento> formasPagamentos) {
-        return formasPagamentos.stream()
-                .map(formaPagamento -> toDto(formaPagamento)).collect(Collectors.toList());
+    @Override
+    public FormaPagamentoDto toModel(FormaPagamento formaPagamento) {
+        FormaPagamentoDto formaPagamentoDto = createModelWithId(formaPagamento.getId(), formaPagamento);
+        modelMapper.map(formaPagamento, FormaPagamentoDto.class);
 
+        formaPagamentoDto.add(algaLinks.linkToFormasPagamento("formasPagamento"));
+
+        return formaPagamentoDto;
+    }
+
+    @Override
+    public CollectionModel<FormaPagamentoDto> toCollectionModel(Iterable<? extends FormaPagamento> entities) {
+        return super.toCollectionModel(entities)
+                .add(algaLinks.linkToFormasPagamento());
     }
 
 }
