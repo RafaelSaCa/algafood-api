@@ -70,7 +70,9 @@ public class AlgaLinks {
         }
 
         public Link linkToRestaurantes(String rel) {
-                return linkTo(RestauranteController.class).withRel(rel);
+                String restauranteUrl = linkTo(RestauranteController.class).toUri().toString();
+
+                return Link.of(UriTemplate.of(restauranteUrl, PROJECAO_VARIABLES), rel);
         }
 
         public Link linkToRestaurantes() {
