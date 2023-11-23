@@ -29,6 +29,8 @@ public class RestauranteDtoAssembler extends RepresentationModelAssemblerSupport
         RestauranteDto restauranteDto = createModelWithId(restaurante.getId(), restaurante);
         modelMapper.map(restaurante, restauranteDto);
 
+        restauranteDto.add(algaLinks.linkToRestaurantes("restaurantes"));
+
         if (restaurante.ativacaoPermitida()) {
             restauranteDto.add(
                     algaLinks.linkToRestauranteAtivacao(restaurante.getId(), "ativar"));
@@ -51,10 +53,14 @@ public class RestauranteDtoAssembler extends RepresentationModelAssemblerSupport
 
         restauranteDto.add(algaLinks.linkToRestaurantes("restaurantes"));
 
+        restauranteDto.add(algaLinks.linkToProdutos(restaurante.getId(), "produtos"));
+
         restauranteDto.getCozinha().add(algaLinks.linkToCozinha(restaurante.getCozinha().getId()));
 
-        restauranteDto.getEndereco().getCidade()
-                .add(algaLinks.linkToCidade(restaurante.getEndereco().getCidade().getId()));
+        if (restauranteDto.getEndereco() != null && restauranteDto.getEndereco().getCidade() != null) {
+            restauranteDto.getEndereco().getCidade()
+                    .add(algaLinks.linkToCidade(restaurante.getEndereco().getCidade().getId()));
+        }
 
         restauranteDto.add(algaLinks.linkToRestauranteFormasPagamento(restaurante.getId(), "formas-pagamento"));
 

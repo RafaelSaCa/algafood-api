@@ -5,24 +5,33 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
+import com.rfsaca.algafood.api.AlgaLinks;
+import com.rfsaca.algafood.api.controllers.ProdutoController;
 import com.rfsaca.algafood.api.model.ProdutoDto;
 import com.rfsaca.algafood.domain.models.Produto;
 
 @Component
-public class ProdutoDtoAssembler {
+public class ProdutoDtoAssembler extends RepresentationModelAssemblerSupport<Produto, ProdutoDto> {
 
     @Autowired
     private ModelMapper modelMapper;
 
-    public ProdutoDto toDto(Produto produto) {
-        return modelMapper.map(produto, ProdutoDto.class);
+    private AlgaLinks algaLinks;
+
+    public ProdutoDtoAssembler() {
+        super(ProdutoController.class, ProdutoDto.class);
     }
 
-    public List<ProdutoDto> toCollectionDto(List<Produto> produtos) {
-        return produtos.stream()
-                .map(produto -> toDto(produto))
-                .collect(Collectors.toList());
+    @Override
+    public ProdutoDto toModel(Produto produto) {
+        ProdutoDto produtoDto = createModelWithId(produto.getId(), produto, produto.getRestaurante().getId());
+        modelMapper.map(produto, ProdutoDto.class);
+
+        produtoDto.add(algaLinks.linkToProdutos(produto.getRestaurante().getId(), "produtos"));
+        return produtoDto;
     }
+
 }
