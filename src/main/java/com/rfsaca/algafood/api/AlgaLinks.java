@@ -16,6 +16,8 @@ import com.rfsaca.algafood.api.controllers.CozinhaController;
 import com.rfsaca.algafood.api.controllers.EstadoController;
 import com.rfsaca.algafood.api.controllers.FluxoPedidoController;
 import com.rfsaca.algafood.api.controllers.FormaPagamentoController;
+import com.rfsaca.algafood.api.controllers.GrupoController;
+import com.rfsaca.algafood.api.controllers.GrupoPermissaoController;
 import com.rfsaca.algafood.api.controllers.PedidoController;
 import com.rfsaca.algafood.api.controllers.ProdutoController;
 import com.rfsaca.algafood.api.controllers.RestauranteController;
@@ -175,6 +177,19 @@ public class AlgaLinks {
 
         public Link linkToGruposUsuario(Long usuarioId) {
                 return linkToGruposUsuario(usuarioId, IanaLinkRelations.SELF.value());
+        }
+
+        public Link linkToGrupos(String rel) {
+                return linkTo(GrupoController.class).withRel(rel);
+        }
+
+        public Link linkToGrupos() {
+                return linkToGrupos(IanaLinkRelations.SELF.value());
+        }
+
+        public Link linkToGrupoPermissoes(Long grupoId, String rel) {
+                return linkTo(methodOn(GrupoPermissaoController.class)
+                                .listar(grupoId)).withRel(rel);
         }
 
         public Link linkToResponsaveisRestaurante(Long restauranteId, String rel) {

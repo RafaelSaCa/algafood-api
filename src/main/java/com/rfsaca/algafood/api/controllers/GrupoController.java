@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,17 +42,17 @@ public class GrupoController {
     private GrupoInputDisassembler grupoInputDisassembler;
 
     @GetMapping
-    public List<GrupoDto> litstar() {
+    public CollectionModel<GrupoDto> litstar() {
         List<Grupo> todosGrupos = grupoRepository.findAll();
 
-        return grupoDtoAssembler.toCollectionDto(todosGrupos);
+        return grupoDtoAssembler.toCollectionModel(todosGrupos);
     }
 
     @GetMapping("/{grupoId}")
     public GrupoDto buscar(@PathVariable Long grupoId) {
         Grupo grupo = grupoService.buscarOuFalhar(grupoId);
 
-        return grupoDtoAssembler.toDto(grupo);
+        return grupoDtoAssembler.toModel(grupo);
     }
 
     @PostMapping
@@ -61,7 +62,7 @@ public class GrupoController {
 
         grupo = grupoService.salvar(grupo);
 
-        return grupoDtoAssembler.toDto(grupo);
+        return grupoDtoAssembler.toModel(grupo);
     }
 
     @PutMapping("/{grupoId}")
@@ -71,7 +72,7 @@ public class GrupoController {
         grupoInputDisassembler.copyToDomainObject(grupoInput, grupoAtual);
 
         grupoAtual = grupoService.salvar(grupoAtual);
-        return grupoDtoAssembler.toDto(grupoAtual);
+        return grupoDtoAssembler.toModel(grupoAtual);
     }
 
     @DeleteMapping("/{grupoId}")
