@@ -3,10 +3,13 @@ package com.rfsaca.algafood.api;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.TemplateVariable;
 import org.springframework.hateoas.TemplateVariable.VariableType;
+import org.springframework.hateoas.server.core.LinkBuilderSupport;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Component;
 import org.springframework.hateoas.TemplateVariables;
 import org.springframework.hateoas.UriTemplate;
@@ -17,7 +20,6 @@ import com.rfsaca.algafood.api.controllers.EstadoController;
 import com.rfsaca.algafood.api.controllers.FluxoPedidoController;
 import com.rfsaca.algafood.api.controllers.FormaPagamentoController;
 import com.rfsaca.algafood.api.controllers.GrupoController;
-import com.rfsaca.algafood.api.controllers.GrupoPermissaoController;
 import com.rfsaca.algafood.api.controllers.PedidoController;
 import com.rfsaca.algafood.api.controllers.ProdutoController;
 import com.rfsaca.algafood.api.controllers.RestauranteController;
@@ -25,6 +27,7 @@ import com.rfsaca.algafood.api.controllers.RestauranteFormaPagamentoController;
 import com.rfsaca.algafood.api.controllers.RestauranteUsuarioResponsavelController;
 import com.rfsaca.algafood.api.controllers.UsuarioController;
 import com.rfsaca.algafood.api.controllers.UsuarioGrupoController;
+import com.rfsaca.algafood.api.model.GrupoDto;
 
 @Component
 public class AlgaLinks {
@@ -170,6 +173,18 @@ public class AlgaLinks {
                 return linkToUsuarios(IanaLinkRelations.SELF.value());
         }
 
+        public Link linkToGrupos(String rel) {
+                return linkTo(GrupoController.class).withRel(rel);
+        }
+
+        public Link linkToGruposPermissoes(Long grupoId, String rel) {
+                return lintoTo(methodOn(GrupoController.class).listar(grupoId)).withRel(rel);
+        }
+
+        private LinkBuilderSupport<WebMvcLinkBuilder> lintoTo(CollectionModel<GrupoDto> listar) {
+                return null;
+        }
+
         public Link linkToGruposUsuario(Long usuarioId, String rel) {
                 return linkTo(methodOn(UsuarioGrupoController.class)
                                 .listar(usuarioId)).withRel(rel);
@@ -177,19 +192,6 @@ public class AlgaLinks {
 
         public Link linkToGruposUsuario(Long usuarioId) {
                 return linkToGruposUsuario(usuarioId, IanaLinkRelations.SELF.value());
-        }
-
-        public Link linkToGrupos(String rel) {
-                return linkTo(GrupoController.class).withRel(rel);
-        }
-
-        public Link linkToGrupos() {
-                return linkToGrupos(IanaLinkRelations.SELF.value());
-        }
-
-        public Link linkToGrupoPermissoes(Long grupoId, String rel) {
-                return linkTo(methodOn(GrupoPermissaoController.class)
-                                .listar(grupoId)).withRel(rel);
         }
 
         public Link linkToResponsaveisRestaurante(Long restauranteId, String rel) {
@@ -269,4 +271,5 @@ public class AlgaLinks {
         public Link linkToCozinhas() {
                 return linkToCozinhas(IanaLinkRelations.SELF.value());
         }
+
 }
