@@ -54,6 +54,7 @@ public class PedidoController {
 
     @Autowired
     private PagedResourcesAssembler<Pedido> pagedResourcesAssembler;
+
     /*
      * / @GetMapping
      * public MappingJacksonValue listar(@RequestParam(required = false) String

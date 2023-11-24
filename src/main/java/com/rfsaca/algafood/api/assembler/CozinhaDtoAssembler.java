@@ -16,6 +16,7 @@ public class CozinhaDtoAssembler extends RepresentationModelAssemblerSupport<Coz
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
     private AlgaLinks algaLinks;
 
     public CozinhaDtoAssembler() {
@@ -26,7 +27,7 @@ public class CozinhaDtoAssembler extends RepresentationModelAssemblerSupport<Coz
     @Override
     public CozinhaDto toModel(Cozinha cozinha) {
         CozinhaDto cozinhaDto = createModelWithId(cozinha.getId(), cozinha);
-        modelMapper.map(cozinha, CozinhaDto.class);
+        modelMapper.map(cozinha, cozinhaDto);
 
         cozinhaDto.add(algaLinks.linkToCozinhas("cozinhas"));
         return cozinhaDto;

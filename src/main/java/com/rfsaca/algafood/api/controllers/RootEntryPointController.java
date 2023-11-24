@@ -1,5 +1,6 @@
 package com.rfsaca.algafood.api.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,7 @@ import com.rfsaca.algafood.api.AlgaLinks;
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 public class RootEntryPointController {
 
+    @Autowired
     private AlgaLinks algaLinks;
 
     @GetMapping
@@ -23,7 +25,7 @@ public class RootEntryPointController {
         rootEntryPointModel.add(algaLinks.linkToRestaurantes("restaurantes"));
         rootEntryPointModel.add(algaLinks.linkToGrupos("grupos"));
         rootEntryPointModel.add(algaLinks.linkToUsuarios("usuarios"));
-        rootEntryPointModel.add(algaLinks.linkToFormasPagamento("formas-pagamento"));
+        // rootEntryPointModel.add(algaLinks.linkToFormasPagamento("formas-pagamento"));
         rootEntryPointModel.add(algaLinks.linkToEstados("estados"));
         rootEntryPointModel.add(algaLinks.linkToGrupos("cidades"));
 

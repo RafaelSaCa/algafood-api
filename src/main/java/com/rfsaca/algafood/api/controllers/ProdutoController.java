@@ -42,6 +42,7 @@ public class ProdutoController {
     @Autowired
     private ProdutoDtoInputDisassembler produtoDtoInputDisassembler;
 
+    @Autowired
     private AlgaLinks algaLinks;
 
     @GetMapping
