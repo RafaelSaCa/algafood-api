@@ -42,7 +42,7 @@ public class GrupoController {
     private GrupoInputDisassembler grupoInputDisassembler;
 
     @GetMapping
-    public CollectionModel<GrupoDto> litstar() {
+    public CollectionModel<GrupoDto> listar(@PathVariable Long grupoId) {
         List<Grupo> todosGrupos = grupoRepository.findAll();
 
         return grupoDtoAssembler.toCollectionModel(todosGrupos);

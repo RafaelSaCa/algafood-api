@@ -27,8 +27,6 @@ import com.rfsaca.algafood.domain.repositories.ProdutoRepository;
 import com.rfsaca.algafood.domain.services.ProdutoService;
 import com.rfsaca.algafood.domain.services.RestauranteService;
 
-import freemarker.ext.beans.CollectionModel;
-
 @RestController
 @RequestMapping("/restaurantes/{restauranteId}/produtos")
 public class ProdutoController {

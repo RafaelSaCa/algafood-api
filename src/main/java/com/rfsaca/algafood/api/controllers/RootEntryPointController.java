@@ -20,7 +20,9 @@ public class RootEntryPointController {
     public RootEntryPointModel root() {
         var rootEntryPointModel = new RootEntryPointModel();
 
+        rootEntryPointModel.add(algaLinks.linkToCozinhas("cozinhas"));
         rootEntryPointModel.add(algaLinks.linkToPedidos("pedidos"));
+
         return rootEntryPointModel;
     }
 

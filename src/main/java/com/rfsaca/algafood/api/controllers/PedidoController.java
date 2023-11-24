@@ -1,12 +1,9 @@
 package com.rfsaca.algafood.api.controllers;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedResourcesAssembler;
@@ -87,8 +84,6 @@ public class PedidoController {
     public PagedModel<PedidoResumoDto> pesquisar(PedidoFilter filtro,
             @PageableDefault(size = 10) Pageable pageable) {
         pageable = traduzirPageable(pageable);
-
-        Pageable pageableTraduzido = traduzirPageable(pageable);
 
         Page<Pedido> pedidosPage = pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filtro), pageable);
 

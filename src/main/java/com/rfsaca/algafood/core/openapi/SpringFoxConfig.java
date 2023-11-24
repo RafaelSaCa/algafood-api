@@ -2,8 +2,6 @@ package com.rfsaca.algafood.core.openapi;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -21,7 +19,7 @@ public class SpringFoxConfig {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.rfsaca.algafood.api"))
                 .paths(PathSelectors.any())
-//          .paths(PathSelectors.ant("/restaurantes/*"))
+                // .paths(PathSelectors.ant("/restaurantes/*"))
                 .build();
     }
 }
