@@ -17,9 +17,10 @@ public class RestauranteDtoAssembler extends RepresentationModelAssemblerSupport
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
     private AlgaLinks algaLinks;
 
-    public RestauranteDtoAssembler(Class<?> controllerClass, Class<RestauranteDto> resourceType) {
+    public RestauranteDtoAssembler() {
         super(RestauranteController.class, RestauranteDto.class);
 
     }

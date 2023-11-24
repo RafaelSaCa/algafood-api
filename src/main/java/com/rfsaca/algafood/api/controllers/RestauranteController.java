@@ -50,10 +50,8 @@ public class RestauranteController {
     @Autowired
     private RestauranteInputDisassembler restauranteInputDisassembler;
 
-    @Autowired
     private RestauranteBasicoDtoAssembler restauranteBasicoDtoAssembler;
 
-    @Autowired
     private RestauranteApenasNomeDtoAssembler restauranteApenasNomeDtoAssembler;
 
     // @JsonView(RestauranteView.Resumo.class)

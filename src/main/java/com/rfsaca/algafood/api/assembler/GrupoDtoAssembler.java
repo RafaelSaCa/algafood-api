@@ -1,9 +1,5 @@
 package com.rfsaca.algafood.api.assembler;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
@@ -33,7 +29,7 @@ public class GrupoDtoAssembler extends RepresentationModelAssemblerSupport<Grupo
         modelMapper.map(grupo, grupoDto);
 
         grupoDto.add(algaLinks.linkToGrupos("grupos"));
-        grupoDto.add(algaLinks.linkToGrupoPermissoes(grupo.getId(), "permissoes"));
+        grupoDto.add(algaLinks.linkToGruposPermissoes(grupo.getId(), "permissoes"));
 
         return grupoDto;
     }
@@ -41,6 +37,6 @@ public class GrupoDtoAssembler extends RepresentationModelAssemblerSupport<Grupo
     @Override
     public CollectionModel<GrupoDto> toCollectionModel(Iterable<? extends Grupo> entities) {
         return super.toCollectionModel(entities)
-                .add(algaLinks.linkToGrupos());
+                .add(algaLinks.linkToGrupos("grupos"));
     }
 }
