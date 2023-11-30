@@ -7,6 +7,7 @@ import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSuppor
 import org.springframework.stereotype.Component;
 
 import com.rfsaca.algafood.api.v1.AlgaLinks;
+import com.rfsaca.algafood.api.v2.AlgaLinksV2;
 import com.rfsaca.algafood.api.v2.controller.CidadeControllerV2;
 import com.rfsaca.algafood.api.v2.model.CidadeDtoV2;
 import com.rfsaca.algafood.domain.models.Cidade;
@@ -17,7 +18,8 @@ public class CidadeDtoAssemblerV2 extends RepresentationModelAssemblerSupport<Ci
     @Autowired
     private ModelMapper modelMapper;
 
-    private AlgaLinks algaLinks;
+    @Autowired
+    private AlgaLinksV2 algaLinks;
 
     public CidadeDtoAssemblerV2() {
         super(CidadeControllerV2.class, CidadeDtoV2.class);

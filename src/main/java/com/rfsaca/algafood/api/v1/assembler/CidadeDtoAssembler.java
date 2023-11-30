@@ -17,6 +17,7 @@ public class CidadeDtoAssembler extends RepresentationModelAssemblerSupport<Cida
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
     private AlgaLinks algaLinks;
 
     public CidadeDtoAssembler() {
