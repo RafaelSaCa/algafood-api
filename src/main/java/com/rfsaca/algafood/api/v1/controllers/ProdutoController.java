@@ -28,7 +28,7 @@ import com.rfsaca.algafood.domain.services.ProdutoService;
 import com.rfsaca.algafood.domain.services.RestauranteService;
 
 @RestController
-@RequestMapping("/restaurantes/{restauranteId}/produtos")
+@RequestMapping("/v1/restaurantes/{restauranteId}/produtos")
 public class ProdutoController {
 
     @Autowired

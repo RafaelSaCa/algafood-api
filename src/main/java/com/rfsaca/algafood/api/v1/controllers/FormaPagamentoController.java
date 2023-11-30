@@ -32,7 +32,7 @@ import com.rfsaca.algafood.domain.repositories.FormaPagamentoRepository;
 import com.rfsaca.algafood.domain.services.FormaPagamentoService;
 
 @RestController
-@RequestMapping("/{formas-pagamento}")
+@RequestMapping("/v1/{formas-pagamento}")
 public class FormaPagamentoController {
 
     @Autowired

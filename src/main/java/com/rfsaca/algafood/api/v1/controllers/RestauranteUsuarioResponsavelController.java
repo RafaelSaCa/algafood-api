@@ -19,7 +19,7 @@ import com.rfsaca.algafood.domain.models.Restaurante;
 import com.rfsaca.algafood.domain.services.RestauranteService;
 
 @RestController
-@RequestMapping("/restaurantes/{restauranteId}/responsaveis")
+@RequestMapping("/v1/restaurantes/{restauranteId}/responsaveis")
 public class RestauranteUsuarioResponsavelController {
 
     @Autowired

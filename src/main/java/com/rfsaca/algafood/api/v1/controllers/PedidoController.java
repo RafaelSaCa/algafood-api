@@ -36,7 +36,7 @@ import com.rfsaca.algafood.domain.services.EmissaoPedidoService;
 import com.rfsaca.algafood.infrastructure.repository.PedidoSpecs;
 
 @RestController
-@RequestMapping("/pedidos")
+@RequestMapping("/v1/pedidos")
 public class PedidoController {
 
     @Autowired

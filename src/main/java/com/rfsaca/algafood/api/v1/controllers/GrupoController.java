@@ -26,7 +26,7 @@ import com.rfsaca.algafood.domain.repositories.GrupoRepository;
 import com.rfsaca.algafood.domain.services.GrupoService;
 
 @RestController
-@RequestMapping("/grupos")
+@RequestMapping("/v1/grupos")
 public class GrupoController {
 
     @Autowired

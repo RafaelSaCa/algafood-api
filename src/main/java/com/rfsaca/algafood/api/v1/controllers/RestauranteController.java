@@ -35,7 +35,7 @@ import com.rfsaca.algafood.domain.repositories.RestauranteRepository;
 import com.rfsaca.algafood.domain.services.RestauranteService;
 
 @RestController
-@RequestMapping("/restaurantes")
+@RequestMapping("/v1/restaurantes")
 public class RestauranteController {
 
     @Autowired

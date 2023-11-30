@@ -26,7 +26,7 @@ import com.rfsaca.algafood.domain.repositories.EstadoRepository;
 import com.rfsaca.algafood.domain.services.EstadoService;
 
 @RestController
-@RequestMapping("/estados")
+@RequestMapping("/v1/estados")
 public class EstadoController {
 
     @Autowired

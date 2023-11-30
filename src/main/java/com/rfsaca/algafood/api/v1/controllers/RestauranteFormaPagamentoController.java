@@ -19,7 +19,7 @@ import com.rfsaca.algafood.domain.models.Restaurante;
 import com.rfsaca.algafood.domain.services.RestauranteService;
 
 @RestController
-@RequestMapping("/restaurantes/{restauranteId}/formas-pagamento")
+@RequestMapping("/v1/restaurantes/{restauranteId}/formas-pagamento")
 public class RestauranteFormaPagamentoController {
 
     @Autowired

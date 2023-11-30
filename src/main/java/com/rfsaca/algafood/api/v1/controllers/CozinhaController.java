@@ -28,7 +28,7 @@ import com.rfsaca.algafood.domain.repositories.CozinhaRepository;
 import com.rfsaca.algafood.domain.services.CozinhaService;
 
 @RestController
-@RequestMapping("/cozinhas")
+@RequestMapping("/v1/cozinhas")
 public class CozinhaController {
 
     @Autowired

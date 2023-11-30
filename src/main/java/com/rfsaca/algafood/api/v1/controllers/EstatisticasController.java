@@ -19,7 +19,7 @@ import com.rfsaca.algafood.domain.services.VendaReportService;
 import net.sf.jasperreports.engine.JRException;
 
 @RestController
-@RequestMapping(path = "/estatisticas")
+@RequestMapping(path = "/v1/estatisticas")
 public class EstatisticasController {
     @Autowired
     private VendaQueryService vendaQueryService;

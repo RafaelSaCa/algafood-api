@@ -18,7 +18,7 @@ import com.rfsaca.algafood.domain.models.Grupo;
 import com.rfsaca.algafood.domain.services.GrupoService;
 
 @RestController
-@RequestMapping("/grupos/{grupoId}/permissoes")
+@RequestMapping("/v1/grupos/{grupoId}/permissoes")
 public class GrupoPermissaoController {
 
     @Autowired
