@@ -53,6 +53,10 @@ public class CozinhaController {
 
         log.info("Consultando cozinhas com páginas de {} registro...", pageable.getPageSize());
 
+        if (true) {
+            throw new RuntimeException("Teste de exception");
+        }
+
         Page<Cozinha> cozinhasPage = cozinhaRepository.findAll(pageable);
 
         PagedModel<CozinhaDto> cozinhasPagedModel = pagedResourcesAssembler
